@@ -44,6 +44,11 @@ public class HttpManager {
   public HttpManager() {
     this(150, 2000, 2000);
   }
+  
+  public HttpManager (String accessToken) {
+    this();
+    this.accessToken = accessToken;
+  }
 
   public HttpManager(int connectionPerHost, int connectionTimeOutDuration, int socketTimeoutDuration) {
     MultiThreadedHttpConnectionManager connectionManager = new MultiThreadedHttpConnectionManager();
