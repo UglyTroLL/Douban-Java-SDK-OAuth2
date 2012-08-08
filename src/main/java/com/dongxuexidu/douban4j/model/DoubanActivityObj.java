@@ -6,6 +6,7 @@ package com.dongxuexidu.douban4j.model;
  */
 public class DoubanActivityObj implements IDoubanObject {
 
+  @Override
   public String getName() {
     return "doubanactivity";
   }

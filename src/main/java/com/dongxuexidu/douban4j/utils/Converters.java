@@ -13,7 +13,20 @@ import net.sf.json.JSONObject;
 public class Converters {
   
   public static DoubanUserObj jsonToDoubanUser (JSONObject jObj) {
-    return null;
+    DoubanUserObj user = new DoubanUserObj();
+    user.setContent(jObj.getJSONObject("content").getString("$t") == null ? "" : jObj.getJSONObject("content").getString("$t"));
+    user.setIdStr(jObj.getJSONObject("db:uid").getString("$t") == null ? "" : jObj.getJSONObject("db:uid").getString("$t"));
+    user.setUriAndIdNum(jObj.getJSONObject("uri").getString("$t"));
+    user.setLocationName(jObj.getJSONObject("db:location").getString("$t") == null ? "" : jObj.getJSONObject("db:location").getString("$t"));
+    user.setLocationId(jObj.getJSONObject("db:location").getString("@id") == null ? "" : jObj.getJSONObject("db:location").getString("@id"));
+    user.setScreenName(jObj.getJSONObject("title").getString("$t") == null ? "" : jObj.getJSONObject("title").getString("$t"));
+    user.setSignature(jObj.getJSONObject("db:signature").getString("$t") == null ? "" : jObj.getJSONObject("db:signature").getString("$t"));
+    JSONArray jArr = jObj.getJSONArray("link");
+    for (int i = 0 ; i < jArr.size() ; i ++) {
+      JSONObject linkObj = jArr.getJSONObject(i);
+      user.addLink(linkObj.getString("@rel"), linkObj.getString("@href"));
+    }
+    return user;
   }
   
   public static AccessToken stringToAccessToken (String responseStr) throws DoubanException {

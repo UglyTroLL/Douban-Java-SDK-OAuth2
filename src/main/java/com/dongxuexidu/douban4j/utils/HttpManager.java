@@ -71,20 +71,23 @@ public class HttpManager {
     return this;
   }
 
-  public boolean hasAccessTokenBeenSet() {
+  private boolean hasAccessTokenBeenSet() {
     return !(this.accessToken == null || this.accessToken.isEmpty());
   }
   
   public String getResponse (String url, List<NameValuePair> params, boolean needAccessToken) throws DoubanException {
     if (params != null && params.size() > 0) {
       String encodedParams = encodeParameters(params);
-      url = url + "?" + encodedParams;
+      url = url + "?" + encodedParams + "&alt=json";
+    } else {
+      url = url + "?alt=json";
     }
     GetMethod method = new GetMethod(url);
     return httpRequest(method, needAccessToken);
   }
   
   public String postResponse (String url, List<NameValuePair> params, boolean needAccessToken) throws DoubanException {
+    url = url + "?alt=json";
     PostMethod method = new PostMethod(url);
     if (params != null && params.size() > 0) {
       for (NameValuePair nvp : params) {
@@ -105,7 +108,7 @@ public class HttpManager {
           throw ErrorHandler.accessTokenNotSet();
         }
         List<Header> headers = new ArrayList<Header>();
-        headers.add(new Header("Authorization", "OAuth2 " + this.accessToken));
+        headers.add(new Header("Authorization", "Bearer " + this.accessToken));
         client.getHostConfiguration().getParams().setParameter("http.default-headers", headers);
       }
       method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler(3, false));

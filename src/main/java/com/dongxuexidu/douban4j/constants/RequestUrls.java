@@ -10,4 +10,7 @@ package com.dongxuexidu.douban4j.constants;
  */
 public class RequestUrls {
   
+  public static final String GET_USER_PROFILE_URL = DefaultConfigs.API_URL_PREFIX + "/people/";
+  public static final String GET_CURRENT_USER_PROFILE_URL = GET_USER_PROFILE_URL + "@me";
+  
 }
