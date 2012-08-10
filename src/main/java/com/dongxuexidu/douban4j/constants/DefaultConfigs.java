@@ -1,6 +1,6 @@
 package com.dongxuexidu.douban4j.constants;
 
-import com.dongxuexidu.douban4j.model.RequestGrantScope;
+import com.dongxuexidu.douban4j.model.app.RequestGrantScope;
 
 /**
  *

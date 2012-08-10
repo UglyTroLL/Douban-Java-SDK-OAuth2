@@ -1,8 +1,11 @@
-package com.dongxuexidu.douban4j.model;
+package com.dongxuexidu.douban4j.model.user;
 
+import com.dongxuexidu.douban4j.model.IDoubanObject;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import net.sf.json.JSON;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 /**
  *
@@ -12,15 +15,15 @@ public class DoubanUserObj implements IDoubanObject {
 
   private String idStr = "";
   private long idNum = 0;
-  private Location location;
-  private String signature;
-  private String screenName;
-  private String uri;
-  private String content;
+  private Location location = null;
+  private String signature = "";
+  private String screenName = "";
+  private String uri = "";
+  private String content = "";
   private Map<String, String> links = new HashMap<String, String>();
 
   @Override
-  public String getName() {
+  public String getObjName() {
     return "user";
   }
 
@@ -49,11 +52,11 @@ public class DoubanUserObj implements IDoubanObject {
    * @return the location
    */
   public String getLocationId() {
-    return location.getId();
+    return location == null ? null : location.getId();
   }
   
   public String getLocationName() {
-    return location.getScreenName();
+    return location == null ? null : location.getScreenName();
   }
 
   /**
@@ -166,11 +169,31 @@ public class DoubanUserObj implements IDoubanObject {
   public void addLink(String type, String value) {
     this.links.put(type, value);
   }
+
+  @Override
+  public IDoubanObject ConvertFrom(JSON json) {
+    JSONObject jObj = (JSONObject)json;
+    this.setContent(jObj.containsKey("content") ? jObj.getJSONObject("content").getString("$t") : "");
+    this.setIdStr(jObj.containsKey("db:uid") ? jObj.getJSONObject("db:uid").getString("$t") : "");
+    this.setUriAndIdNum(jObj.getJSONObject("uri").getString("$t"));
+    this.setLocationName(jObj.containsKey("db:location") ? jObj.getJSONObject("db:location").getString("$t") : "");
+    this.setLocationId(jObj.containsKey("db:location") ? jObj.getJSONObject("db:location").getString("@id") : "");
+    this.setScreenName(jObj.containsKey("title") ? jObj.getJSONObject("title").getString("$t") : "");
+    this.setSignature(jObj.containsKey("db:signature") ? jObj.getJSONObject("db:signature").getString("$t") : "");
+    if (jObj.containsKey("link")) {
+      JSONArray jArr = jObj.getJSONArray("link");
+      for (int i = 0 ; i < jArr.size() ; i ++) {
+        JSONObject linkObj = jArr.getJSONObject(i);
+        this.addLink(linkObj.getString("@rel"), linkObj.getString("@href"));
+      }
+    }
+    return this;
+  }
   
   class Location {
 
-    private String id;
-    private String screenName;
+    private String id = "";
+    private String screenName = "";
 
     /**
      * @return the id

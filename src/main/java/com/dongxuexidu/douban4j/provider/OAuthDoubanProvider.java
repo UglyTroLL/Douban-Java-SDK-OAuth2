@@ -1,9 +1,9 @@
 package com.dongxuexidu.douban4j.provider;
 
 import com.dongxuexidu.douban4j.constants.DefaultConfigs;
-import com.dongxuexidu.douban4j.model.AccessToken;
-import com.dongxuexidu.douban4j.model.DoubanException;
-import com.dongxuexidu.douban4j.model.RequestGrantScope;
+import com.dongxuexidu.douban4j.model.app.AccessToken;
+import com.dongxuexidu.douban4j.model.app.DoubanException;
+import com.dongxuexidu.douban4j.model.app.RequestGrantScope;
 import com.dongxuexidu.douban4j.utils.Converters;
 import com.dongxuexidu.douban4j.utils.ErrorHandler;
 import com.dongxuexidu.douban4j.utils.HttpManager;

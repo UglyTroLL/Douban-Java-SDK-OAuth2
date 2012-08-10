@@ -1,4 +1,4 @@
-package com.dongxuexidu.douban4j.model;
+package com.dongxuexidu.douban4j.model.app;
 
 /**
  *

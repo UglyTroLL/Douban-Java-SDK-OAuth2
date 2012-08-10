@@ -1,6 +1,6 @@
 package com.dongxuexidu.douban4j.utils;
 
-import com.dongxuexidu.douban4j.model.DoubanException;
+import com.dongxuexidu.douban4j.model.app.DoubanException;
 
 /**
  *
@@ -8,7 +8,7 @@ import com.dongxuexidu.douban4j.model.DoubanException;
  */
 public class ErrorHandler {
   
-  //A lot of work needs to be done here
+  //TODO:A lot of work needs to be done here
   
   public static final int HTTP_STATUS_OK = 200;
   
@@ -20,8 +20,8 @@ public class ErrorHandler {
     return new DoubanException(100, "Cannot get access token, IO exception");
   }
   
-  public static DoubanException wrongJsonFormat () {
-    return new DoubanException(100, "Illegal JSON format");
+  public static DoubanException wrongJsonFormat (String rawString) {
+    return new DoubanException(100, "Illegal JSON format : " + rawString);
   }
   
   public static DoubanException handleError (String response) {

@@ -1,6 +1,6 @@
 package com.dongxuexidu.douban4j.utils;
 
-import com.dongxuexidu.douban4j.model.DoubanException;
+import com.dongxuexidu.douban4j.model.app.DoubanException;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
