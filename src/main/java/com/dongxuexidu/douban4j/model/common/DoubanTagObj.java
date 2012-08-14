@@ -5,7 +5,7 @@
 package com.dongxuexidu.douban4j.model.common;
 
 import com.dongxuexidu.douban4j.model.IDoubanObject;
-import net.sf.json.JSON;
+import com.google.api.client.util.Key;
 
 /**
  *
@@ -18,6 +18,7 @@ public class DoubanTagObj implements IDoubanObject{
     return "tag";
   }
   
+  @Key("@name")
   private String name;
 
   /**
@@ -32,11 +33,6 @@ public class DoubanTagObj implements IDoubanObject{
    */
   public void setName(String name) {
     this.name = name;
-  }
-
-  @Override
-  public IDoubanObject ConvertFrom(JSON json) {
-    throw new UnsupportedOperationException("Not supported yet.");
   }
   
 }

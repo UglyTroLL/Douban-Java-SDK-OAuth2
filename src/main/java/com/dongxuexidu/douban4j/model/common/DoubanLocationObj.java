@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.dongxuexidu.douban4j.model.common;
 
 import com.dongxuexidu.douban4j.model.IDoubanObject;
@@ -11,31 +7,31 @@ import com.google.api.client.util.Key;
  *
  * @author Zhibo Wei <uglytroll@dongxuexidu.com>
  */
-public class DoubanAttributeObj implements IDoubanObject {
+public class DoubanLocationObj implements IDoubanObject{
 
   @Override
   public String getObjName() {
-    return "attribute";
+    return "doubanlocation";
   }
   
-  @Key ("@name")
-  private String name;
-  
-  @Key ("text()")
+  @Key("@id")
+  private String id;
+
+  @Key("text()")
   private String value;
 
   /**
-   * @return the name
+   * @return the id
    */
-  public String getName() {
-    return name;
+  public String getId() {
+    return id;
   }
 
   /**
-   * @param name the name to set
+   * @param id the id to set
    */
-  public void setName(String name) {
-    this.name = name;
+  public void setId(String id) {
+    this.id = id;
   }
 
   /**

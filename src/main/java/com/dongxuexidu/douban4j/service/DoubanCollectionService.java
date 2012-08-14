@@ -21,19 +21,19 @@ public class DoubanCollectionService extends DoubanService {
     super(accessToken);
   }
   
-  public JSONObject getCollectionByIdInJSON (String collectionId) throws DoubanException {
-    String resultStr = this.client.getResponse(RequestUrls.GET_COLLECTION_BY_ID_URL + collectionId, null, false);
-    DoubanException exp = ErrorHandler.handleError(resultStr);
-    if (exp != null) {
-      throw exp;
-    }
-    JSONObject jObj = Converters.toJsonObj(resultStr);
-    return jObj;
-  }
+//  public JSONObject getCollectionByIdInJSON (String collectionId) throws DoubanException {
+//    String resultStr = this.client.getResponse(RequestUrls.GET_COLLECTION_BY_ID_URL + collectionId, null, false);
+//    DoubanException exp = ErrorHandler.handleError(resultStr);
+//    if (exp != null) {
+//      throw exp;
+//    }
+//    JSONObject jObj = Converters.toJsonObj(resultStr);
+//    return jObj;
+//  }
   
   public DoubanCollectionObj getCollectionById (String collectionId) throws DoubanException {
-    JSONObject jObj = getCollectionByIdInJSON(collectionId);
-    return (DoubanCollectionObj)new DoubanCollectionObj().ConvertFrom(jObj);
+    DoubanCollectionObj result = this.client.getResponse(RequestUrls.GET_COLLECTION_BY_ID_URL + collectionId, null, DoubanCollectionObj.class, false);
+    return result;
   }
   
 }

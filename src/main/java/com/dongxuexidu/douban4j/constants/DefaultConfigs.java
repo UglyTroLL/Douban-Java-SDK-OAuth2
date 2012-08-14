@@ -1,6 +1,7 @@
 package com.dongxuexidu.douban4j.constants;
 
 import com.dongxuexidu.douban4j.model.app.RequestGrantScope;
+import com.google.api.client.xml.XmlNamespaceDictionary;
 
 /**
  *
@@ -17,5 +18,11 @@ public class DefaultConfigs {
   
   public static final RequestGrantScope SCOPE_SHUO_READ = new RequestGrantScope("DoubanShuoRead", "shuo_basic_r", "豆瓣说读取权限");
   public static final RequestGrantScope SCOPE_SHUO_WRITE = new RequestGrantScope("DoubanShuoWrite", "shuo_basic_w", "豆瓣说写入权限");
+  
+  public static final XmlNamespaceDictionary DOUBAN_XML_NAMESPACE = new XmlNamespaceDictionary()
+          .set("", "http://www.w3.org/2005/Atom")
+          .set("db", "http://www.douban.com/xmlns/")
+          .set("gd", "http://schemas.google.com/g/2005")
+          .set("opensearch", "http://a9.com/-/spec/opensearchrss/1.0/");
   
 }

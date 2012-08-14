@@ -5,8 +5,7 @@
 package com.dongxuexidu.douban4j.model.common;
 
 import com.dongxuexidu.douban4j.model.IDoubanObject;
-import net.sf.json.JSON;
-import net.sf.json.JSONObject;
+import com.google.api.client.util.Key;
 
 /**
  *
@@ -18,9 +17,11 @@ public class DoubanCategoryObj implements IDoubanObject {
   public String getObjName() {
     return "category";
   }
+  @Key("@scheme")
+  private String scheme;
   
-  private String scheme = "";
-  private String term = "";
+  @Key("@term")
+  private String term;
 
   /**
    * @return the scheme
@@ -50,16 +51,4 @@ public class DoubanCategoryObj implements IDoubanObject {
     this.term = term;
   }
 
-  @Override
-  public IDoubanObject ConvertFrom(JSON json) {
-    JSONObject jObj = (JSONObject)json;
-    if (jObj.containsKey("@scheme")) {
-      this.setScheme(jObj.getString("@scheme"));
-    }
-    if (jObj.containsKey("@term")) {
-      this.setTerm(jObj.getString("@term"));
-    }
-    return this;
-  }
-  
 }

@@ -8,13 +8,12 @@ import com.dongxuexidu.douban4j.model.IDoubanObject;
 import com.dongxuexidu.douban4j.model.common.DoubanAttributeObj;
 import com.dongxuexidu.douban4j.model.common.DoubanAuthorObj;
 import com.dongxuexidu.douban4j.model.common.DoubanCategoryObj;
+import com.dongxuexidu.douban4j.model.common.DoubanLinkObj;
+import com.google.api.client.util.Key;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import net.sf.json.JSON;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 /**
  *
@@ -26,11 +25,23 @@ public class DoubanSubjectObj implements IDoubanObject {
   public String getObjName() {
     return "subject";
   }
+  
+  @Key("category")
   private DoubanCategoryObj category;
+  
+  @Key("author")
   private List<DoubanAuthorObj> authors = new ArrayList<DoubanAuthorObj>();
+  
+  @Key
   private String title;
-  private Map<String, String> links = new HashMap<String, String>();
+  
+  @Key("link")
+  private List<DoubanLinkObj> links = new ArrayList<DoubanLinkObj>();
+  
+  @Key("db:attribute")
   private List<DoubanAttributeObj> attributes = new ArrayList<DoubanAttributeObj>();
+  
+  @Key
   private String id;
 
   /**
@@ -79,31 +90,24 @@ public class DoubanSubjectObj implements IDoubanObject {
     this.title = title;
   }
 
-  public String getSelfLink() {
-    return this.links.containsKey("self") ? this.links.get("self") : null;
-  }
-
-  public String getAlternateLink() {
-    return this.links.containsKey("alternate") ? this.links.get("alternate") : null;
-  }
-
-  public String getImageLink() {
-    return this.links.containsKey("image") ? this.links.get("image") : null;
-  }
-
-  public String getMobileLink() {
-    return this.links.containsKey("mobile") ? this.links.get("mobile") : null;
-  }
-
   /**
    * @param links the links to set
    */
-  public void setLinks(Map<String, String> links) {
+  public void setLinks(List<DoubanLinkObj> links) {
     this.links = links;
   }
 
-  public void addLink(String rel, String href) {
-    this.links.put(rel, href);
+  public void addLink(DoubanLinkObj link) {
+    this.links.add(link);
+  }
+  
+  public String getLinkByRel (String rel) {
+    for (DoubanLinkObj obj : this.links) {
+      if (obj.getRel().equalsIgnoreCase(rel)) {
+        return obj.getHref();
+      }
+    }
+    return null;
   }
 
   /**
@@ -132,40 +136,5 @@ public class DoubanSubjectObj implements IDoubanObject {
    */
   public void setId(String id) {
     this.id = id;
-  }
-
-  @Override
-  public IDoubanObject ConvertFrom(JSON json) {
-    JSONObject jObj = (JSONObject) json;
-    if (jObj.containsKey("category")) {
-      JSONObject temp = jObj.getJSONObject("category");
-      this.setCategory((DoubanCategoryObj) new DoubanCategoryObj().ConvertFrom(temp));
-    }
-    if (jObj.containsKey("author")) {
-      JSONArray arrAuthor = jObj.getJSONArray("author");
-      for (int i = 0; i < arrAuthor.size(); i++) {
-        JSONObject temp = arrAuthor.getJSONObject(i);
-        this.addAuthor((DoubanAuthorObj) new DoubanAuthorObj().ConvertFrom(temp));
-      }
-    }
-    if (jObj.containsKey("title")) {
-      this.setTitle(jObj.getJSONObject("title").getString("$t"));
-    }
-    if (jObj.containsKey("link")) {
-      JSONArray arrLink = jObj.getJSONArray("link");
-      for (int i = 0 ; i < arrLink.size() ; i ++) {
-        JSONObject obj = arrLink.getJSONObject(i);
-        this.addLink(obj.getString("@rel"), obj.getString("@href"));
-      }
-    }
-    this.setId(jObj.containsKey("id") ? jObj.getJSONObject("id").getString("$t") : "");
-    if (jObj.containsKey("db:attribute")) {
-      JSONArray arr = jObj.getJSONArray("db:attribute");
-      for (int i = 0 ; i < arr.size() ; i ++) {
-        JSONObject obj = arr.getJSONObject(i);
-        this.addAttribute((DoubanAttributeObj)new DoubanAttributeObj().ConvertFrom(obj));
-      }
-    }
-    return this;
   }
 }

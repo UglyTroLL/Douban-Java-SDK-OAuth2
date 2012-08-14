@@ -20,6 +20,10 @@ public class ErrorHandler {
     return new DoubanException(100, "Cannot get access token, IO exception");
   }
   
+  public static DoubanException getCustomDoubanException (int code, String msg) {
+    return new DoubanException(code, msg);
+  }
+  
   public static DoubanException wrongJsonFormat (String rawString) {
     return new DoubanException(100, "Illegal JSON format : " + rawString);
   }

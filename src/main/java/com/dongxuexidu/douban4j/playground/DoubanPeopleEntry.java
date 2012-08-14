@@ -1,8 +1,9 @@
-package com.dongxuexidu.douban4j.model.user;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.dongxuexidu.douban4j.playground;
 
-import com.dongxuexidu.douban4j.model.IDoubanObject;
-import com.dongxuexidu.douban4j.model.common.DoubanLinkObj;
-import com.dongxuexidu.douban4j.model.common.DoubanLocationObj;
 import com.google.api.client.util.Key;
 import java.util.List;
 
@@ -10,8 +11,8 @@ import java.util.List;
  *
  * @author Zhibo Wei <uglytroll@dongxuexidu.com>
  */
-public class DoubanUserObj implements IDoubanObject {
-
+public class DoubanPeopleEntry {
+  
   @Key
   private String id;
   
@@ -19,14 +20,17 @@ public class DoubanUserObj implements IDoubanObject {
   private String title;
   
   @Key ("link")
-  private List<DoubanLinkObj> links;
+  private List<Link> links;
   
   @Key
   private String content;
   
   @Key ("db:location")
-  private DoubanLocationObj location;
-
+  private Location location;
+  
+//  @Key ("db:location/@id")
+//  private String locationId;
+  
   @Key ("db:signature")
   private String signature;
   
@@ -35,10 +39,22 @@ public class DoubanUserObj implements IDoubanObject {
   
   @Key
   private String uri;
-
+  
   @Override
-  public String getObjName() {
-    return "doubanuser";
+  public String toString() {
+    
+    String result = "id : " + id + "\n"
+            + "title : " + title + "\n";
+    for (Link l : links) {
+      result = result + l.toString() + "\n";
+    }
+    result = result + "content : " + content + "\n"
+            + "location : " + location + "\n"
+            //+ "location id : " + locationId + "\n"
+            + "sign : " + signature + "\n"
+            + "uid : " + uid + "\n"
+            + "uri : " + uri;
+    return result;
   }
 
   /**
@@ -72,19 +88,15 @@ public class DoubanUserObj implements IDoubanObject {
   /**
    * @return the links
    */
-  public List<DoubanLinkObj> getLinks() {
+  public List<Link> getLinks() {
     return links;
-  }
-  
-  public void setLinks (List<DoubanLinkObj> links) {
-    this.links = links;
   }
 
   /**
    * @param links the links to set
    */
   public void addLink(String href, String rel) {
-    this.links.add(new DoubanLinkObj(href, rel));
+    this.links.add(new Link(href, rel));
   }
 
   /**
@@ -104,16 +116,16 @@ public class DoubanUserObj implements IDoubanObject {
   /**
    * @return the location
    */
-  public DoubanLocationObj getLocation() {
-    return location;
-  }
+//  public String getLocation() {
+//    return location;
+//  }
 
   /**
    * @param location the location to set
    */
-  public void setLocation(DoubanLocationObj location) {
-    this.location = location;
-  }
+//  public void setLocation(String location) {
+//    this.location = location;
+//  }
 
   /**
    * @return the signature
@@ -156,6 +168,5 @@ public class DoubanUserObj implements IDoubanObject {
   public void setUri(String uri) {
     this.uri = uri;
   }
- 
-
+  
 }

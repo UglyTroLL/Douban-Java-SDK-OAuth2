@@ -7,11 +7,14 @@ import com.dongxuexidu.douban4j.model.app.RequestGrantScope;
 import com.dongxuexidu.douban4j.utils.Converters;
 import com.dongxuexidu.douban4j.utils.ErrorHandler;
 import com.dongxuexidu.douban4j.utils.HttpManager;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.sf.json.JSONObject;
-import org.apache.commons.httpclient.NameValuePair;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 
 /**
  *
@@ -139,14 +142,20 @@ public class OAuthDoubanProvider {
   }
   
   public AccessToken tradeAccessTokenWithCode (String code) throws DoubanException {
-    List<NameValuePair> params = new ArrayList<NameValuePair>();
-    params.add(new NameValuePair("client_id", this.apiKey));
-    params.add(new NameValuePair("client_secret", this.secretKey));
-    params.add(new NameValuePair("redirect_uri", DefaultConfigs.ACCESS_TOKEN_REDIRECT_URL));
-    params.add(new NameValuePair("grant_type", "authorization_code"));
-    params.add(new NameValuePair("code", code));
-    String responseStr = new HttpManager().postResponse(DefaultConfigs.ACCESS_TOKEN_URL, null, false);
-    return Converters.stringToAccessToken(responseStr);
+    try {
+      List<NameValuePair> params = new ArrayList<NameValuePair>();
+      params.add(new BasicNameValuePair("client_id", this.apiKey));
+      params.add(new BasicNameValuePair("client_secret", this.secretKey));
+      params.add(new BasicNameValuePair("redirect_uri", DefaultConfigs.ACCESS_TOKEN_REDIRECT_URL));
+      params.add(new BasicNameValuePair("grant_type", "authorization_code"));
+      params.add(new BasicNameValuePair("code", code));
+      String responseStr = new HttpManager().postResponseAsString(DefaultConfigs.ACCESS_TOKEN_URL, params);
+      return Converters.stringToAccessToken(responseStr);
+    } catch (UnsupportedEncodingException ex) {
+      throw ErrorHandler.getCustomDoubanException(100, "Exception in trading access token : " + ex.toString());
+    } catch (IOException ex) {
+      throw ErrorHandler.getCustomDoubanException(100, "Exception in trading access token : " + ex.toString());
+    }
   }
   
   private String generateScopeString() {

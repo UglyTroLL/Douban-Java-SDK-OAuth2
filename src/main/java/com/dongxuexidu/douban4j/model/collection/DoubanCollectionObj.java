@@ -1,19 +1,17 @@
 package com.dongxuexidu.douban4j.model.collection;
 
 import com.dongxuexidu.douban4j.model.IDoubanObject;
+import com.dongxuexidu.douban4j.model.common.DoubanLinkObj;
 import com.dongxuexidu.douban4j.model.common.DoubanRatingObj;
 import com.dongxuexidu.douban4j.model.common.DoubanTagObj;
 import com.dongxuexidu.douban4j.model.subject.DoubanSubjectObj;
 import com.dongxuexidu.douban4j.model.user.DoubanUserObj;
-import com.dongxuexidu.douban4j.utils.Converters;
+import com.google.api.client.util.Key;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import net.sf.json.JSON;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 /**
  *
@@ -26,14 +24,31 @@ public class DoubanCollectionObj implements IDoubanObject{
     return "doubancollection";
   }
   
+  @Key("updated")
   private Date updateTime = null;
+  
+  @Key("db:tag")
   private List<DoubanTagObj> tags = new ArrayList<DoubanTagObj>();
+  
+  @Key("author")
   private DoubanUserObj author = null;
+  
+  @Key
   private String title = "";
-  private Map<String, String> links = new HashMap<String, String>();
+  
+  @Key("link")
+  private List<DoubanLinkObj> links = new ArrayList<DoubanLinkObj>();
+  
+  @Key
   private String id;
+  
+  @Key("db:subject")
   private DoubanSubjectObj subject = null;
+  
+  @Key("db:status")
   private String status;
+  
+  @Key("gd:rating")
   private DoubanRatingObj rating = null;
 
   /**
@@ -95,24 +110,22 @@ public class DoubanCollectionObj implements IDoubanObject{
   public void setTitle(String title) {
     this.title = title;
   }
-
-  /**
-   * @return the links
-   */
-  public String getSelfLink () {
-    return this.links.containsKey("self") ? this.links.get("self") : null;
+  
+  public void setLinks (List<DoubanLinkObj> links) {
+    this.links = links;
   }
   
-  public String getSubjectLink () {
-    return this.links.containsKey("subject") ? this.links.get("subject") : null;
+  public void addLink(DoubanLinkObj link) {
+    this.links.add(link);
   }
   
-  public void addLink (String rel, String href) {
-    if (rel.contains("subject")) {
-      this.links.put("subject", href);
-    } else {
-      this.links.put(rel, href);
+  public String getLinkByRel (String rel) {
+    for (DoubanLinkObj obj : this.links) {
+      if (obj.getRel().equalsIgnoreCase(rel)) {
+        return obj.getHref();
+      }
     }
+    return null;
   }
 
   /**
@@ -155,44 +168,6 @@ public class DoubanCollectionObj implements IDoubanObject{
    */
   public void setStatus(String status) {
     this.status = status;
-  }
-
-  @Override
-  public IDoubanObject ConvertFrom(JSON json) {
-    JSONObject jObj = (JSONObject)json;
-    if (jObj.containsKey("updated")) {
-      JSONObject jObjUpdated = jObj.getJSONObject("updated");
-      Date updatedDate = Converters.jsonTimeStampToDate(jObjUpdated.getString("$t"));
-      if (updatedDate != null) {
-        this.setUpdateTime(updatedDate);
-      }
-    }
-    if (jObj.containsKey("author")) {
-      JSONObject jObjAuthor = jObj.getJSONObject("author");
-      this.setAuthor((DoubanUserObj)new DoubanUserObj().ConvertFrom(jObjAuthor));
-    }
-    if (jObj.containsKey("title")) {
-      JSONObject jObjTitle = jObj.getJSONObject("title");
-      this.setTitle(jObjTitle.getString("$t"));
-    }
-    if (jObj.containsKey("db:subject")) {
-      JSONObject jObjSubject = jObj.getJSONObject("db:subject");
-      this.setSubject((DoubanSubjectObj)new DoubanSubjectObj().ConvertFrom(jObjSubject));
-    }
-    if (jObj.containsKey("link")) {
-      JSONArray arrLink = jObj.getJSONArray("link");
-      for (int i = 0 ; i < arrLink.size() ; i ++) {
-        JSONObject obj = arrLink.getJSONObject(i);
-        this.addLink(obj.getString("@rel"), obj.getString("@href"));
-      }
-    }
-    this.setId(jObj.containsKey("id") ? jObj.getJSONObject("id").getString("$t") : "");
-    this.setStatus(jObj.containsKey("db:status") ? jObj.getJSONObject("db:status").getString("$t") : "");
-    if (jObj.containsKey("gd:rating")) {
-      JSONObject obj = jObj.getJSONObject("gd:rating");
-      this.setRating((DoubanRatingObj) new DoubanRatingObj().ConvertFrom(obj));
-    }
-    return this;
   }
 
   /**

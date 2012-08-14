@@ -5,9 +5,7 @@
 package com.dongxuexidu.douban4j.model.common;
 
 import com.dongxuexidu.douban4j.model.IDoubanObject;
-import net.sf.json.JSON;
-import net.sf.json.JSONObject;
-
+import com.google.api.client.util.Key;
 /**
  *
  * @author Zhibo Wei <uglytroll@dongxuexidu.com>
@@ -19,18 +17,14 @@ public class DoubanRatingObj implements IDoubanObject{
     return "rating";
   }
   
+  @Key("@min")
   private int min = 1;
+  
+  @Key("@max")
   private int max = 5;
+  
+  @Key("@value")
   private String value = "";
-
-  @Override
-  public IDoubanObject ConvertFrom(JSON json) {
-    JSONObject obj = (JSONObject)json;
-    this.setMin(obj.containsKey("@min") ? obj.getInt("@min") : 1);
-    this.setMax(obj.containsKey("@max") ? obj.getInt("@max") : 5);
-    this.setValue(obj.containsKey("@value") ? obj.getString("@value") : "");
-    return this;
-  }
 
   /**
    * @return the min

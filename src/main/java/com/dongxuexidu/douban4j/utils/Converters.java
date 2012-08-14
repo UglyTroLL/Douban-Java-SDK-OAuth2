@@ -72,15 +72,6 @@ public class Converters {
     }
   }
   
-  public static JSONArray toJsonArr (String jsonStr) throws DoubanException {
-    try {
-      JSONArray result = JSONArray.fromObject(jsonStr);
-      return result;
-    } catch (JSONException ex) {
-      throw ErrorHandler.wrongJsonFormat(jsonStr);
-    }
-  }
-  
   public static void main(String[] args) {
     System.out.println(jsonTimeStampToDate("2006-03-29T10:36:19+08:00"));
     System.out.println(dateToJsonTimeStamp(new Date()));
