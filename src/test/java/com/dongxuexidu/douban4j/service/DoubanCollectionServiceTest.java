@@ -20,9 +20,10 @@ public class DoubanCollectionServiceTest extends TestCase {
     System.out.println("getCollectionById");
     String collectionId = "2154169";
     DoubanCollectionService instance = new DoubanCollectionService();
-    DoubanCollectionObj result = instance.getCollectionById(collectionId);
+    DoubanCollectionObj result = instance.getCollectionById(2154169l);
     assertEquals(result.getAuthor().getUri(), "http://api.douban.com/people/1029974");
     System.out.println("uri : " + result.getAuthor().getUri());
+    System.out.println("updated : " + result.getUpdateTime());
     assertEquals(result.getId(), "http://api.douban.com/collection/2154169");
     System.out.println("id : " + result.getId());
     assertEquals(result.getRating().getValue(), "4");

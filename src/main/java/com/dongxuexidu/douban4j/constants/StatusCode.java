@@ -4,7 +4,7 @@ package com.dongxuexidu.douban4j.constants;
  *
  * @author Zhibo Wei <uglytroll@dongxuexidu.com>
  */
-public class ErrorStatusCode {
+public class StatusCode {
   
   public static final int HTTP_STATUS_OK = 200; //请求成功
   public static final int HTTP_STATUS_CREATED = 201; //创建成功

@@ -86,6 +86,15 @@ public class DoubanUserObj implements IDoubanObject {
   public void addLink(String href, String rel) {
     this.links.add(new DoubanLinkObj(href, rel));
   }
+  
+  public String getLinkByRel (String rel) {
+    for (DoubanLinkObj obj : this.links) {
+      if (obj.getRel().equalsIgnoreCase(rel)) {
+        return obj.getHref();
+      }
+    }
+    return null;
+  }
 
   /**
    * @return the content

@@ -1,6 +1,7 @@
 package com.dongxuexidu.douban4j.model.collection;
 
 import com.dongxuexidu.douban4j.model.IDoubanObject;
+import com.dongxuexidu.douban4j.model.common.DoubanAttributeObj;
 import com.dongxuexidu.douban4j.model.common.DoubanLinkObj;
 import com.dongxuexidu.douban4j.model.common.DoubanRatingObj;
 import com.dongxuexidu.douban4j.model.common.DoubanTagObj;
@@ -25,7 +26,7 @@ public class DoubanCollectionObj implements IDoubanObject{
   }
   
   @Key("updated")
-  private Date updateTime = null;
+  private String updateTime = null;
   
   @Key("db:tag")
   private List<DoubanTagObj> tags = new ArrayList<DoubanTagObj>();
@@ -50,18 +51,24 @@ public class DoubanCollectionObj implements IDoubanObject{
   
   @Key("gd:rating")
   private DoubanRatingObj rating = null;
+  
+  @Key("content")
+  private String content;
+  
+  @Key("db:attribute")
+  private List<DoubanAttributeObj> att;
 
   /**
    * @return the updateTime
    */
-  public Date getUpdateTime() {
+  public String getUpdateTime() {
     return updateTime;
   }
 
   /**
    * @param updateTime the updateTime to set
    */
-  public void setUpdateTime(Date updateTime) {
+  public void setUpdateTime(String updateTime) {
     this.updateTime = updateTime;
   }
 
@@ -127,6 +134,10 @@ public class DoubanCollectionObj implements IDoubanObject{
     }
     return null;
   }
+  
+  public List<DoubanLinkObj> getLinks() {
+    return this.links;
+  }
 
   /**
    * @return the id
@@ -182,6 +193,34 @@ public class DoubanCollectionObj implements IDoubanObject{
    */
   public void setRating(DoubanRatingObj rating) {
     this.rating = rating;
+  }
+
+  /**
+   * @return the content
+   */
+  public String getContent() {
+    return content;
+  }
+
+  /**
+   * @param content the content to set
+   */
+  public void setContent(String content) {
+    this.content = content;
+  }
+
+  /**
+   * @return the att
+   */
+  public List<DoubanAttributeObj> getAtt() {
+    return att;
+  }
+
+  /**
+   * @param att the att to set
+   */
+  public void setAtt(List<DoubanAttributeObj> att) {
+    this.att = att;
   }
   
 }

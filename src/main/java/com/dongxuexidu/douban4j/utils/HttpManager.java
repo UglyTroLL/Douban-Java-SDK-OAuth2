@@ -65,27 +65,25 @@ public class HttpManager {
     return !(this.accessToken == null || this.accessToken.isEmpty());
   }
 
-  public <T extends IDoubanObject> T getResponse(String url, Map<String, String> params, Class<T> responseType, boolean needAccessToken) throws DoubanException {
-    try {
-      if (params != null && params.size() > 0) {
-        String encodedParams = encodeParameters(params);
-        url = url + "?" + encodedParams;
-      }
-      HttpRequest method = requestFactory.buildGetRequest(new GenericUrl(url));
-      return httpRequest(method, needAccessToken, responseType);
-    } catch (IOException ex) {
-      throw ErrorHandler.getCustomDoubanException(100, "Error happened in requesting API : " + ex.toString());
+  public <T extends IDoubanObject> T getResponse(String url, List<NameValuePair> params, Class<T> responseType, boolean needAccessToken) throws DoubanException, IOException {
+    if (params != null && params.size() > 0) {
+      String encodedParams = encodeParameters(params);
+      url = url + "?" + encodedParams;
     }
+    HttpRequest method = requestFactory.buildGetRequest(new GenericUrl(url));
+    return httpRequest(method, needAccessToken).parseAs(responseType);
   }
 
-  public <T, W extends IDoubanObject> W postResponse(String url, T requestObj, Class<W> responseType, boolean needAccessToken) throws DoubanException {
-    try {
-      AtomContent content = AtomContent.forEntry(DefaultConfigs.DOUBAN_XML_NAMESPACE, requestObj);
-      HttpRequest method = requestFactory.buildPostRequest(new GenericUrl(url), content);
-      return httpRequest(method, needAccessToken, responseType);
-    } catch (IOException ex) {
-      throw ErrorHandler.getCustomDoubanException(100, "Error happened in requesting API : " + ex.toString());
-    }
+  public <T, W extends IDoubanObject> W postResponse(String url, T requestObj, Class<W> responseType, boolean needAccessToken) throws DoubanException, IOException {
+    AtomContent content = AtomContent.forEntry(DefaultConfigs.DOUBAN_XML_NAMESPACE, requestObj);
+    HttpRequest method = requestFactory.buildPostRequest(new GenericUrl(url), content);
+    return httpRequest(method, needAccessToken).parseAs(responseType);
+  }
+
+  public <T extends IDoubanObject> int postResponseCodeOnly(String url, T requestObj, boolean needAccessToken) throws DoubanException, IOException {
+    AtomContent content = AtomContent.forEntry(DefaultConfigs.DOUBAN_XML_NAMESPACE, requestObj);
+    HttpRequest method = requestFactory.buildPostRequest(new GenericUrl(url), content);
+    return httpRequest(method, needAccessToken).getStatusCode();
   }
 
   public String postResponseAsString(String url, List<NameValuePair> params) throws UnsupportedEncodingException, IOException {
@@ -101,7 +99,24 @@ public class HttpManager {
     return result.toString();
   }
 
-  private <T extends IDoubanObject> T httpRequest(HttpRequest method, boolean needToken, Class<T> responseType) throws DoubanException {
+  public <T, W extends IDoubanObject> W putResponse(String url, T requestObj, Class<W> responseType, boolean needAccessToken) throws DoubanException, IOException {
+    AtomContent content = AtomContent.forEntry(DefaultConfigs.DOUBAN_XML_NAMESPACE, requestObj);
+    HttpRequest method = requestFactory.buildPutRequest(new GenericUrl(url), content);
+    return httpRequest(method, needAccessToken).parseAs(responseType);
+  }
+
+  public <T extends IDoubanObject> int putResponseCodeOnly(String url, T requestObj, boolean needAccessToken) throws DoubanException, IOException {
+    AtomContent content = AtomContent.forEntry(DefaultConfigs.DOUBAN_XML_NAMESPACE, requestObj);
+    HttpRequest method = requestFactory.buildPutRequest(new GenericUrl(url), content);
+    return httpRequest(method, needAccessToken).getStatusCode();
+  }
+
+  public int deleteResponse(String url, boolean needAccessToken) throws DoubanException, IOException {
+    HttpRequest method = requestFactory.buildDeleteRequest(new GenericUrl(url));
+    return httpRequest(method, needAccessToken).getStatusCode();
+  }
+
+  private HttpResponse httpRequest(HttpRequest method, boolean needToken) throws DoubanException, IOException {
     try {
       if (needToken) {
         if (!hasAccessTokenBeenSet()) {
@@ -111,24 +126,22 @@ public class HttpManager {
         headers.setAuthorization("Bearer " + this.accessToken);
       }
       HttpResponse res = method.execute();
-      return res.parseAs(responseType);
+      return res;
     } catch (HttpResponseException ex) {
-      throw ErrorHandler.getCustomDoubanException(100, "Error happened in requesting API : " + ex.toString());
-    } catch (IOException ex) {
-      throw ErrorHandler.getCustomDoubanException(100, "Error happened in requesting API : " + ex.toString());
+      throw ErrorHandler.handleHttpResponseError(ex);
     }
   }
 
-  private static String encodeParameters(Map<String, String> params) {
+  private static String encodeParameters(List<NameValuePair> params) {
     StringBuilder buf = new StringBuilder();
     int j = 0;
-    for (String key : params.keySet()) {
+    for (NameValuePair nvp : params) {
       if (j != 0) {
         buf.append("&");
       }
       j++;
       try {
-        buf.append(URLEncoder.encode(key, CHARSET)).append("=").append(URLEncoder.encode(params.get(key), CHARSET));
+        buf.append(URLEncoder.encode(nvp.getName(), CHARSET)).append("=").append(URLEncoder.encode(nvp.getValue(), CHARSET));
       } catch (java.io.UnsupportedEncodingException ex) {
         System.out.println("Shouldn't go this far");
       }

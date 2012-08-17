@@ -109,6 +109,10 @@ public class DoubanSubjectObj implements IDoubanObject {
     }
     return null;
   }
+  
+  public List<DoubanLinkObj> getLinks() {
+    return this.links;
+  }
 
   /**
    * @return the attributes

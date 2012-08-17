@@ -2,27 +2,21 @@ package com.dongxuexidu.douban4j.service;
 
 import com.dongxuexidu.douban4j.constants.RequestUrls;
 import com.dongxuexidu.douban4j.model.app.DoubanException;
+import com.dongxuexidu.douban4j.model.user.DoubanUserFeedObj;
 import com.dongxuexidu.douban4j.model.user.DoubanUserObj;
-import com.dongxuexidu.douban4j.utils.Converters;
 import com.dongxuexidu.douban4j.utils.ErrorHandler;
-import com.dongxuexidu.douban4j.utils.HttpManager;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
 /**
  *
  * @author Zhibo Wei <uglytroll@dongxuexidu.com>
  */
+
 public class DoubanUserService extends DoubanService {
-  
-  private static final Integer REQUEST_TYPE_OTHER = 1;
-  private static final Integer REQUEST_TYPE_SELF = 2;
-  
-  private static final Integer REQUEST_TYPE_USERS_FRIENDS = 3;
-  private static final Integer REQUEST_TYPE_USERS_CONTACTS = 4;
   
   public DoubanUserService () {
     super();
@@ -32,173 +26,79 @@ public class DoubanUserService extends DoubanService {
     super(accessToken);
   }
   
-  public void setAccessToken (String accessToken) {
-    this.client.setAccessToken(accessToken);
+  public DoubanUserObj getUserProfileByUid (String uid) throws DoubanException, IOException {
+    String url = RequestUrls.DOUBAN_USER_PREFIX + "/" + uid;
+    DoubanUserObj result = this.client.getResponse(url, null, DoubanUserObj.class, false);
+    return result;
   }
   
-//  private String getUserProfileInRaw (int type, String uid) throws DoubanException {
-//    String url;
-//    if (type == REQUEST_TYPE_OTHER) {
-//      url = RequestUrls.GET_USER_PROFILE_URL + uid;
-//      return this.client.getResponse(url, null, false);
-//    } else {
-//      url = RequestUrls.GET_CURRENT_USER_PROFILE_URL;
-//      return this.client.getResponse(url, null, true);
-//    }
-//  }
-//  
-//  private String getUserFriendsOrContactsInRaw (int type, String uid, List<NameValuePair> params) throws DoubanException {
-//    String url;
-//    if (type == REQUEST_TYPE_USERS_FRIENDS) {
-//      url = RequestUrls.GET_USER_PROFILE_URL + uid + "/friends";
-//    } else {
-//      url = RequestUrls.GET_USER_PROFILE_URL + uid + "/contacts";
-//    }
-//    return this.client.getResponse(url, params, true);
-//  }
-//  
-//  //----------Search--------------
-//  
-//  public JSONArray searchUserProfileInJSONObj (String keyword) throws DoubanException {
-//    return searchUserProfileInJSONObj(keyword, 0, 10);
-//  }
-//  
-//  public List<DoubanUserObj> searchUserProfile (String keyword) throws DoubanException {
-//    return searchUserProfile(keyword, 0, 10);
-//  }
-//  
-//  public JSONArray searchUserProfileInJSONObj (String keyword, int startIndex, int maxResultCount) throws DoubanException {
-//    List<NameValuePair> params = new ArrayList<NameValuePair>();
-//    params.add(new NameValuePair("q", keyword));
-//    params.add(new NameValuePair("start-index", "" + startIndex));
-//    params.add(new NameValuePair("max-results", "" + maxResultCount));
-//    String returnStr = this.client.getResponse(RequestUrls.SEARCH_USER_URL, params, false);
-//    DoubanException exp = ErrorHandler.handleError(returnStr);
-//    if (exp != null) {
-//      throw exp;
-//    }
-//    JSONObject jObj = Converters.toJsonObj(returnStr);
-//    JSONArray allResult = jObj.getJSONArray("entry");
-//    return allResult;
-//  }
-//  
-//  public List<DoubanUserObj> searchUserProfile (String keyword, int startIndex, int maxResultCount) throws DoubanException {
-//    JSONArray resultArr = searchUserProfileInJSONObj(keyword, startIndex, maxResultCount);
-//    List<DoubanUserObj> result = new ArrayList<DoubanUserObj>();
-//    for (int i = 0 ; i < resultArr.size() ; i ++) {
-//      JSONObject resultObj = resultArr.getJSONObject(i);
-//      result.add((DoubanUserObj)new DoubanUserObj().ConvertFrom(resultObj));
-//    }
-//    return result;
-//  }
-//  
-//  //-----------------User profile------------------------
-//  
-//  public JSONObject getUserProfileInJSONObj (String uid) throws DoubanException {
-//    String response = getUserProfileInRaw(REQUEST_TYPE_OTHER, uid);
-//    DoubanException exp = ErrorHandler.handleError(response);
-//    if (exp != null) {
-//      throw exp;
-//    }
-//    JSONObject jObj = Converters.toJsonObj(response);
-//    return jObj;
-//  }
-//  
-//  public DoubanUserObj getUserProfile (String uid) throws DoubanException {
-//    JSONObject jObj = getUserProfileInJSONObj(uid);
-//    return (DoubanUserObj)new DoubanUserObj().ConvertFrom(jObj);
-//  }
-//  
-//  public JSONObject getCurrentUserProfileInJSONObj () throws DoubanException {
-//    String response = getUserProfileInRaw(REQUEST_TYPE_SELF, "");
-//    DoubanException exp = ErrorHandler.handleError(response);
-//    if (exp != null) {
-//      throw exp;
-//    }
-//    JSONObject jObj = Converters.toJsonObj(response);
-//    return jObj;
-//  }
-//  
-//  public DoubanUserObj getCurrentUserProfile () throws DoubanException {
-//    JSONObject jObj = getCurrentUserProfileInJSONObj();
-//    return (DoubanUserObj)new DoubanUserObj().ConvertFrom(jObj);
-//  }
-//  
-//  //-------------------User's friends profile--------------------------
-//  
-//  public JSONArray getUsersFriendsListInJSONArray(String uid) throws DoubanException {
-//    return getUsersFriendsListInJSONArray(uid, 0, 10);
-//  }
-//  
-//  public List<DoubanUserObj> getUsersFriendsList(String uid) throws DoubanException {
-//    return getUsersFriendsList(uid, 0, 10);
-//  }
-//  
-//  public JSONArray getUsersFriendsListInJSONArray (String uid, int startIndex, int maxResultCount) throws DoubanException {
-//    List<NameValuePair> params = new ArrayList<NameValuePair>();
-//    params.add(new NameValuePair("start-index", "" + startIndex));
-//    params.add(new NameValuePair("max-results", "" + maxResultCount));
-//    String resultStr = getUserFriendsOrContactsInRaw(REQUEST_TYPE_USERS_FRIENDS, uid, params);
-//    DoubanException exp = ErrorHandler.handleError(resultStr);
-//    if (exp != null) {
-//      throw exp;
-//    }
-//    JSONObject jObj = Converters.toJsonObj(resultStr);
-//    JSONArray allResult = jObj.getJSONArray("entry");
-//    return allResult;
-//  }
-//  
-//  public List<DoubanUserObj> getUsersFriendsList (String uid, int startIndex, int maxResultCount) throws DoubanException {
-//    JSONArray resultArr = getUsersFriendsListInJSONArray(uid, startIndex, maxResultCount);
-//    List<DoubanUserObj> result = new ArrayList<DoubanUserObj>();
-//    for (int i = 0 ; i < resultArr.size() ; i ++) {
-//      JSONObject resultObj = resultArr.getJSONObject(i);
-//      result.add((DoubanUserObj)new DoubanUserObj().ConvertFrom(resultObj));
-//    }
-//    return result;
-//  }
-//  
-//  //-------------------User's contacts profile--------------------------
-//  
-//  public JSONArray getUsersContactsListInJSONArray(String uid) throws DoubanException {
-//    return getUsersFriendsListInJSONArray(uid, 0, 10);
-//  }
-//  
-//  public List<DoubanUserObj> getUsersContactsList(String uid) throws DoubanException {
-//    return getUsersFriendsList(uid, 0, 10);
-//  }
-//  
-//  public JSONArray getUsersContactsListInJSONArray (String uid, int startIndex, int maxResultCount) throws DoubanException {
-//    List<NameValuePair> params = new ArrayList<NameValuePair>();
-//    params.add(new NameValuePair("start-index", "" + startIndex));
-//    params.add(new NameValuePair("max-results", "" + maxResultCount));
-//    String resultStr = getUserFriendsOrContactsInRaw(REQUEST_TYPE_USERS_CONTACTS, uid, params);
-//    DoubanException exp = ErrorHandler.handleError(resultStr);
-//    if (exp != null) {
-//      throw exp;
-//    }
-//    JSONObject jObj = Converters.toJsonObj(resultStr);
-//    JSONArray allResult = jObj.getJSONArray("entry");
-//    return allResult;
-//  }
-//  
-//  public List<DoubanUserObj> getUsersContactsList (String uid, int startIndex, int maxResultCount) throws DoubanException {
-//    JSONArray resultArr = getUsersFriendsListInJSONArray(uid, startIndex, maxResultCount);
-//    List<DoubanUserObj> result = new ArrayList<DoubanUserObj>();
-//    for (int i = 0 ; i < resultArr.size() ; i ++) {
-//      JSONObject resultObj = resultArr.getJSONObject(i);
-//      result.add((DoubanUserObj)new DoubanUserObj().ConvertFrom(resultObj));
-//    }
-//    return result;
-//  }
-//  
-//  public static void main(String[] args) {
-//    try {
-//      DoubanUserService test = new DoubanUserService();
-//      System.out.println(test.searchUserProfile("uglytroll").toString());
-//    } catch (DoubanException ex) {
-//      Logger.getLogger(DoubanUserService.class.getName()).log(Level.SEVERE, null, ex);
-//    }
-//  }
+  public DoubanUserObj getLoggedInUserProfile (String accessToken) throws DoubanException, IOException {
+    setAccessToken(accessToken);
+    DoubanUserObj result = this.client.getResponse(RequestUrls.DOUBAN_USER_PREFIX + "/@me", null, DoubanUserObj.class, true);
+    return result;
+  }
+  
+  public DoubanUserFeedObj searchUserProfile (String keyword) throws DoubanException, IOException {
+    return searchUserProfile(keyword, null, null);
+  }
+
+  public DoubanUserFeedObj searchUserProfile (String keyword, Integer startIndex, Integer maxResultCount) throws DoubanException, IOException {
+    List<NameValuePair> params = new ArrayList<NameValuePair>();
+    if (keyword != null && keyword.length() > 0) {
+      params.add(new BasicNameValuePair("q", keyword));
+    } else {
+      throw ErrorHandler.getCustomDoubanException(100, "You have to have a keyword specified in order to search");
+    }
+    if (startIndex != null) {
+      params.add(new BasicNameValuePair("start-index", startIndex.toString()));
+    }
+    if (maxResultCount != null) {
+      params.add(new BasicNameValuePair("max-results", maxResultCount.toString()));
+    }
+    DoubanUserFeedObj result = this.client.getResponse(RequestUrls.DOUBAN_USER_PREFIX, params, DoubanUserFeedObj.class, false);
+    return result;
+  }
+  
+  public DoubanUserFeedObj getUsersFriendsList (String uid, String accessToken) throws DoubanException, IOException {
+    return getUsersFriendsList(uid, null, null, accessToken);
+  }
+  
+  public DoubanUserFeedObj getUsersFriendsList (String uid, Integer startIndex, Integer maxResultCount, String accessToken) throws DoubanException, IOException {
+    setAccessToken(accessToken);
+    List<NameValuePair> params = new ArrayList<NameValuePair>();
+    if (uid == null || uid.isEmpty()) {
+      throw ErrorHandler.getCustomDoubanException(100, "We cannot get the friend list from a ghost, please specify a user id");
+    }
+    if (startIndex != null) {
+      params.add(new BasicNameValuePair("start-index", startIndex.toString()));
+    }
+    if (maxResultCount != null) {
+      params.add(new BasicNameValuePair("max-results", maxResultCount.toString()));
+    }
+    String url = RequestUrls.DOUBAN_USER_PREFIX + "/" + uid + "/friends";
+    DoubanUserFeedObj result = this.client.getResponse(url, params, DoubanUserFeedObj.class, true);
+    return result;
+  }
+  
+  public DoubanUserFeedObj getUsersContactsList (String uid) throws DoubanException, IOException {
+    return getUsersContactsList(uid, null, null);
+  }
+  
+  public DoubanUserFeedObj getUsersContactsList (String uid, Integer startIndex, Integer maxResultCount) throws DoubanException, IOException {
+    List<NameValuePair> params = new ArrayList<NameValuePair>();
+    if (uid == null || uid.isEmpty()) {
+      throw ErrorHandler.getCustomDoubanException(100, "We cannot get the contact list from a ghost, please specify a user id");
+    }
+    if (startIndex != null) {
+      params.add(new BasicNameValuePair("start-index", startIndex.toString()));
+    }
+    if (maxResultCount != null) {
+      params.add(new BasicNameValuePair("max-results", maxResultCount.toString()));
+    }
+    String url = RequestUrls.DOUBAN_USER_PREFIX + "/" + uid + "/contacts";
+    DoubanUserFeedObj result = this.client.getResponse(url, params, DoubanUserFeedObj.class, false);
+    return result;
+  }
+
   
 }
