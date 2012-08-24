@@ -32,6 +32,9 @@ public class DoubanReviewEntryObj implements IDoubanObject {
   @Key("published")
   private String publishedTime;
   
+  @Key("content")
+  private String content;
+  
   @Key("updated")
   private String updatedTime;
   
@@ -229,6 +232,20 @@ public class DoubanReviewEntryObj implements IDoubanObject {
    */
   public void setRating(DoubanRatingObj rating) {
     this.rating = rating;
+  }
+
+  /**
+   * @return the content
+   */
+  public String getContent() {
+    return content;
+  }
+
+  /**
+   * @param content the content to set
+   */
+  public void setContent(String content) {
+    this.content = content;
   }
   
 }

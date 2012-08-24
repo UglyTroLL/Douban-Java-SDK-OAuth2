@@ -3,7 +3,6 @@ package com.dongxuexidu.douban4j.utils;
 import com.dongxuexidu.douban4j.constants.DefaultConfigs;
 import com.dongxuexidu.douban4j.model.IDoubanObject;
 import com.dongxuexidu.douban4j.model.app.DoubanException;
-import com.dongxuexidu.douban4j.model.common.PlainTextObj;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpRequest;
@@ -14,19 +13,25 @@ import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.apache.ApacheHttpTransport;
 import com.google.api.client.http.xml.atom.AtomContent;
 import com.google.api.client.xml.XmlObjectParser;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+
 
 /**
  *
@@ -81,9 +86,16 @@ public class HttpManager {
   }
 
   public <T extends IDoubanObject> int postResponseCodeOnly(String url, T requestObj, boolean needAccessToken) throws DoubanException, IOException {
-    AtomContent content = AtomContent.forEntry(DefaultConfigs.DOUBAN_XML_NAMESPACE, requestObj);
+    AtomContent content = null;
+    if (requestObj != null) {
+      content = AtomContent.forEntry(DefaultConfigs.DOUBAN_XML_NAMESPACE, requestObj);
+    }
+    //System.out.println("content : " + content.toString());
+//    OutputStream out = new FileOutputStream("/home/zwei/testdouban.file");
+//    content.writeTo(out);
     HttpRequest method = requestFactory.buildPostRequest(new GenericUrl(url), content);
-    return httpRequest(method, needAccessToken).getStatusCode();
+    HttpResponse response = httpRequest(method, needAccessToken);
+    return response.getStatusCode();
   }
 
   public String postResponseAsString(String url, List<NameValuePair> params) throws UnsupportedEncodingException, IOException {

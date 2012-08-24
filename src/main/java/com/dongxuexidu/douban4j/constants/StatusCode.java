@@ -43,6 +43,9 @@ public class StatusCode {
       124	access_token_has_not_expired access_token未过期
       125	invalid_request_scope 访问的scope不合法，开发者不用太关注，一般不会出现该错误
       999	unknown 未知错误
+      * 
+      *
+      * I guess we don't need these? Since the error description is already in the return message
    */
   public static final int API_CODE_INVALID_REQUEST_SCHEME = 100;
   public static final int API_CODE_INVALID_REQUEST_METHOD = 101;

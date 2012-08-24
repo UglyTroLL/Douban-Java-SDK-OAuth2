@@ -17,19 +17,31 @@ public class Converters {
     if (responseStr == null) {
       throw ErrorHandler.cannotGetAccessToken();
     }
+    System.out.println("got result !");
+    System.out.println(responseStr);
     JSONObject jObj = Converters.toJsonObj(responseStr);
-    if (jObj == null) {
-      throw ErrorHandler.wrongJsonFormat(responseStr);
+    AccessToken token = new AccessToken();
+    if (jObj.containsKey("access_token")) {
+      String accessToken = jObj.getString("access_token");
+      token.setAccessToken(accessToken);
+    } else {
+      throw ErrorHandler.cannotGetAccessToken();
     }
-    DoubanException exp = ErrorHandler.handleError(responseStr);
-    if (exp != null) {
-      throw exp;
+    if (jObj.containsKey("expires_in")) {
+      int expiresIn = jObj.getInt("expires_in");
+      token.setExpiresIn(expiresIn);
+    } else {
+      throw ErrorHandler.cannotGetAccessToken();
     }
-    String accessToken = jObj.getString("access_token");
-    int expiresIn = jObj.getInt("expires_in");
-    String refreshToken = jObj.getString("refresh_token");
-    String doubanUserId = jObj.getString("douban_user_id");
-    return new AccessToken(accessToken, expiresIn, refreshToken, doubanUserId);
+    if (jObj.containsKey("refresh_token")) {
+      String refreshToken = jObj.getString("refresh_token");
+      token.setRefreshToken(refreshToken);
+    }
+    if (jObj.containsKey("douban_user_id")) {
+      String doubanUserId = jObj.getString("douban_user_id");
+      token.setDoubanUserId(doubanUserId);
+    }
+    return token;
   }
   
   public static Date convertStringToDateTimeInRFC3339 (String dateStr) {
@@ -53,6 +65,8 @@ public class Converters {
       throw ErrorHandler.wrongJsonFormat(jsonStr);
     }
   }
+  
+  public static 
   
   public static void main(String[] args) {
     System.out.println(convertStringToDateTimeInRFC3339("2006-03-29T10:36:19+08:00"));

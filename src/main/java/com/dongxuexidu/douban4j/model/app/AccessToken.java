@@ -69,6 +69,10 @@ public class AccessToken implements Serializable {
     this.doubanUserId = doubanUserId;
   }
   
+  public AccessToken() {
+    
+  }
+  
   public AccessToken (String accessToken) {
     this.accessToken = accessToken;
   }

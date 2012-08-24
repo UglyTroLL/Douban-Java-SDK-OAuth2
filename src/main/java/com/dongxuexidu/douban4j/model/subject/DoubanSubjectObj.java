@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.dongxuexidu.douban4j.model.subject;
 
 import com.dongxuexidu.douban4j.model.IDoubanObject;
@@ -9,6 +5,7 @@ import com.dongxuexidu.douban4j.model.common.DoubanAttributeObj;
 import com.dongxuexidu.douban4j.model.common.DoubanAuthorObj;
 import com.dongxuexidu.douban4j.model.common.DoubanCategoryObj;
 import com.dongxuexidu.douban4j.model.common.DoubanLinkObj;
+import com.dongxuexidu.douban4j.model.common.DoubanRatingObj;
 import com.google.api.client.util.Key;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,6 +40,9 @@ public class DoubanSubjectObj implements IDoubanObject {
   
   @Key
   private String id;
+  
+  @Key("gd:rating")
+  private DoubanRatingObj rating;
 
   /**
    * @return the category
@@ -140,5 +140,19 @@ public class DoubanSubjectObj implements IDoubanObject {
    */
   public void setId(String id) {
     this.id = id;
+  }
+
+  /**
+   * @return the rating
+   */
+  public DoubanRatingObj getRating() {
+    return rating;
+  }
+
+  /**
+   * @param rating the rating to set
+   */
+  public void setRating(DoubanRatingObj rating) {
+    this.rating = rating;
   }
 }

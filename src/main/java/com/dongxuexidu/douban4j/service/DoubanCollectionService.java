@@ -2,6 +2,7 @@ package com.dongxuexidu.douban4j.service;
 
 import com.dongxuexidu.douban4j.constants.StatusCode;
 import com.dongxuexidu.douban4j.constants.RequestUrls;
+import com.dongxuexidu.douban4j.model.UnTested;
 import com.dongxuexidu.douban4j.model.app.DoubanException;
 import com.dongxuexidu.douban4j.model.collection.DoubanCollectionFeedObj;
 import com.dongxuexidu.douban4j.model.collection.DoubanCollectionObj;
@@ -196,6 +197,7 @@ public class DoubanCollectionService extends DoubanService {
     return result;
   }
 
+  @UnTested
   public boolean createNewCollection(CollectionStatus status, List<String> tags, int rating, String content, String subjectId, boolean isPrivate, String accessToken) throws DoubanException, IOException {
     setAccessToken(accessToken);
     DoubanCollectionObj collection = generateCollection(null, status, tags, rating, content, subjectId, isPrivate);
@@ -263,6 +265,7 @@ public class DoubanCollectionService extends DoubanService {
     return col;
   }
 
+  @UnTested
   public boolean updateCollection(Long collectionId, CollectionStatus status, List<String> tags, int rating, String content, String subjectId, String accessToken) throws DoubanException, IOException {
     setAccessToken(accessToken);
     DoubanCollectionObj collection = generateCollection(collectionId, status, tags, rating, content, subjectId, null);
@@ -285,10 +288,11 @@ public class DoubanCollectionService extends DoubanService {
     }
   }
 
+  @UnTested
   public boolean deleteCollection(Long collectionId, String accessToken) throws DoubanException, IOException {
     setAccessToken(accessToken);
     if (collectionId == null) {
-      throw ErrorHandler.getCustomDoubanException(100, "New collection object cannot be null");
+      throw ErrorHandler.getCustomDoubanException(100, "Collection id cannot be null");
     }
     try {
       int responseCode = this.client.deleteResponse(RequestUrls.DOUBAN_COLLECTION_PREFIX + "/" + collectionId, true);
