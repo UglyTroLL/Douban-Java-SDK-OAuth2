@@ -66,8 +66,6 @@ public class Converters {
     }
   }
   
-  public static 
-  
   public static void main(String[] args) {
     System.out.println(convertStringToDateTimeInRFC3339("2006-03-29T10:36:19+08:00"));
     System.out.println(convertDateToStringInRFC3339(new Date()));
