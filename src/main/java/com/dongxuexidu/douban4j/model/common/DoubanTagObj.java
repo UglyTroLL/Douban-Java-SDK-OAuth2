@@ -20,6 +20,9 @@ public class DoubanTagObj implements IDoubanObject{
   
   @Key("@name")
   private String name;
+  
+  @Key("@count")
+  private String count;
 
   /**
    * @return the name
@@ -33,6 +36,20 @@ public class DoubanTagObj implements IDoubanObject{
    */
   public void setName(String name) {
     this.name = name;
+  }
+
+  /**
+   * @return the count
+   */
+  public String getCount() {
+    return count;
+  }
+
+  /**
+   * @param count the count to set
+   */
+  public void setCount(String count) {
+    this.count = count;
   }
   
 }

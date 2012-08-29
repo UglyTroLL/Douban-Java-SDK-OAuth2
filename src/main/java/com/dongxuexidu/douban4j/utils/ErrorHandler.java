@@ -12,9 +12,14 @@ public class ErrorHandler {
   
   public static final int HTTP_RESPONSE_ERROR_STATUS_CODE = 1015;
   public static final int ACCESS_TOKEN_NOT_SET = 727;
+  public static final int MISSING_REQUIRED_PARAM = 728;
   
   public static DoubanException accessTokenNotSet () {
     return new DoubanException(ACCESS_TOKEN_NOT_SET, "This method needs access token to gain accessability");
+  }
+  
+  public static DoubanException missingRequiredParam () {
+    return new DoubanException(MISSING_REQUIRED_PARAM, "This method is missing required params");
   }
   
   public static DoubanException cannotGetAccessToken () {

@@ -24,7 +24,13 @@ public class DoubanRatingObj implements IDoubanObject{
   private int max = 5;
   
   @Key("@value")
-  private String value = "";
+  private int value = 0;
+  
+  @Key("@average")
+  private float average = 0.0f;
+  
+  @Key("@numRaters")
+  private int numberOfRaters = 0;
 
   /**
    * @return the min
@@ -57,7 +63,7 @@ public class DoubanRatingObj implements IDoubanObject{
   /**
    * @return the value
    */
-  public String getValue() {
+  public int getValue() {
     return value;
   }
 
@@ -65,7 +71,42 @@ public class DoubanRatingObj implements IDoubanObject{
    * @param value the value to set
    */
   public void setValue(String value) {
+    this.setValue(value);
+  }
+
+  /**
+   * @return the numberOfRaters
+   */
+  public int getNumberOfRaters() {
+    return numberOfRaters;
+  }
+
+  /**
+   * @param numberOfRaters the numberOfRaters to set
+   */
+  public void setNumberOfRaters(int numberOfRaters) {
+    this.numberOfRaters = numberOfRaters;
+  }
+
+  /**
+   * @param value the value to set
+   */
+  public void setValue(int value) {
     this.value = value;
+  }
+
+  /**
+   * @return the average
+   */
+  public float getAverage() {
+    return average;
+  }
+
+  /**
+   * @param average the average to set
+   */
+  public void setAverage(float average) {
+    this.average = average;
   }
   
 }

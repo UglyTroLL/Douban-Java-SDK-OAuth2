@@ -6,6 +6,7 @@ import com.dongxuexidu.douban4j.model.common.DoubanAuthorObj;
 import com.dongxuexidu.douban4j.model.common.DoubanCategoryObj;
 import com.dongxuexidu.douban4j.model.common.DoubanLinkObj;
 import com.dongxuexidu.douban4j.model.common.DoubanRatingObj;
+import com.dongxuexidu.douban4j.model.common.DoubanTagObj;
 import com.google.api.client.util.Key;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,8 +33,14 @@ public class DoubanSubjectObj implements IDoubanObject {
   @Key
   private String title;
   
+  @Key("summary")
+  private String summary;
+  
   @Key("link")
   private List<DoubanLinkObj> links = new ArrayList<DoubanLinkObj>();
+  
+  @Key("db:tag")
+  private List<DoubanTagObj> tags = new ArrayList<DoubanTagObj>();
   
   @Key("db:attribute")
   private List<DoubanAttributeObj> attributes = new ArrayList<DoubanAttributeObj>();
@@ -154,5 +161,40 @@ public class DoubanSubjectObj implements IDoubanObject {
    */
   public void setRating(DoubanRatingObj rating) {
     this.rating = rating;
+  }
+
+  /**
+   * @return the tags
+   */
+  public List<DoubanTagObj> getTags() {
+    return tags;
+  }
+
+  /**
+   * @param tags the tags to set
+   */
+  public void setTags(List<DoubanTagObj> tags) {
+    this.tags = tags;
+  }
+  
+  public void addTag (DoubanTagObj tag) {
+    if (this.tags == null) {
+      this.tags = new ArrayList<DoubanTagObj>();
+    }
+    this.tags.add(tag);
+  }
+
+  /**
+   * @return the summary
+   */
+  public String getSummary() {
+    return summary;
+  }
+
+  /**
+   * @param summary the summary to set
+   */
+  public void setSummary(String summary) {
+    this.summary = summary;
   }
 }

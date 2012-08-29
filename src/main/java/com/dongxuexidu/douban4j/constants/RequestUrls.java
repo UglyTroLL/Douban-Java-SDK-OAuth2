@@ -45,4 +45,14 @@ public class RequestUrls {
   
   public static final String DOUBAN_EVENT_PREFIX = DefaultConfigs.API_URL_PREFIX + "/event";
   
+  /**
+   * Douban shuo Services
+   */
+  
+  public static final String DOUBAN_SHUO_STATUS_PREFIX = DefaultConfigs.API_URL_PREFIX + "/shuo/statuses";
+  
+  public static final String DOUBAN_SHUO_USER_PREFIX = DefaultConfigs.API_URL_PREFIX + "/shuo/users";
+  
+  public static final String DOUBAN_SHUO_FRIENDSHIP_PREFIX = DefaultConfigs.API_URL_PREFIX + "/shuo/friendships";
+   
 }

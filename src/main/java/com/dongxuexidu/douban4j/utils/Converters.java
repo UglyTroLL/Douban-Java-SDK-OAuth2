@@ -1,8 +1,13 @@
 package com.dongxuexidu.douban4j.utils;
 
+import com.dongxuexidu.douban4j.model.IDoubanObject;
 import com.dongxuexidu.douban4j.model.app.AccessToken;
 import com.dongxuexidu.douban4j.model.app.DoubanException;
+import com.google.api.client.http.json.JsonHttpContent;
+import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.client.util.DateTime;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
@@ -12,8 +17,8 @@ import net.sf.json.JSONObject;
  * @author Zhibo Wei <uglytroll@dongxuexidu.com>
  */
 public class Converters {
-  
-  public static AccessToken stringToAccessToken (String responseStr) throws DoubanException {
+
+  public static AccessToken stringToAccessToken(String responseStr) throws DoubanException {
     if (responseStr == null) {
       throw ErrorHandler.cannotGetAccessToken();
     }
@@ -43,21 +48,21 @@ public class Converters {
     }
     return token;
   }
-  
-  public static Date convertStringToDateTimeInRFC3339 (String dateStr) {
+
+  public static Date convertStringToDateTimeInRFC3339(String dateStr) {
     DateTime dt = DateTime.parseRfc3339(dateStr);
     return new Date(dt.getValue());
   }
-  
-  public static String convertDateToStringInRFC3339 (Date date) {
+
+  public static String convertDateToStringInRFC3339(Date date) {
     DateTime dt = new DateTime(date.getTime(), 480);
     String wholeFormat = dt.toString();
     //Do a little hack here for converting the date into the proper string
     String result = wholeFormat.substring(0, wholeFormat.indexOf(".")) + wholeFormat.substring(wholeFormat.indexOf(".") + 4);
     return result;
   }
-  
-  public static JSONObject toJsonObj (String jsonStr) throws DoubanException {
+
+  public static JSONObject toJsonObj(String jsonStr) throws DoubanException {
     try {
       JSONObject result = JSONObject.fromObject(jsonStr);
       return result;
@@ -65,10 +70,17 @@ public class Converters {
       throw ErrorHandler.wrongJsonFormat(jsonStr);
     }
   }
-  
+
+  public static <T extends IDoubanObject> String parseDoubanObjToJSONStr(T obj) throws IOException {
+    JsonHttpContent content = new JsonHttpContent(new JacksonFactory(), obj);
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    content.writeTo(os);
+    String result = new String(os.toByteArray());
+    return result;
+  }
+
   public static void main(String[] args) {
     System.out.println(convertStringToDateTimeInRFC3339("2006-03-29T10:36:19+08:00"));
     System.out.println(convertDateToStringInRFC3339(new Date()));
   }
-  
 }

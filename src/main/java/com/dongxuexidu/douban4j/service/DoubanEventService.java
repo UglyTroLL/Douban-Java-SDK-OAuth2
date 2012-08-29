@@ -225,7 +225,7 @@ public class DoubanEventService extends DoubanService {
     if (keyword != null && keyword.length() > 0) {
       params.add(new BasicNameValuePair("q", keyword));
     } else {
-      throw ErrorHandler.getCustomDoubanException(100, "You have to have a keyword specified in order to search");
+      throw ErrorHandler.missingRequiredParam();
     }
     if (startIndex != null) {
       params.add(new BasicNameValuePair("start-index", startIndex.toString()));

@@ -3,18 +3,32 @@ package com.dongxuexidu.douban4j.playground;
 import com.dongxuexidu.douban4j.model.app.AccessToken;
 import com.dongxuexidu.douban4j.model.app.DoubanException;
 import com.dongxuexidu.douban4j.model.app.RequestGrantScope;
+import com.dongxuexidu.douban4j.model.common.DoubanAttributeObj;
+import com.dongxuexidu.douban4j.model.common.DoubanTagObj;
+import com.dongxuexidu.douban4j.model.shuo.DoubanShuoAttachementObj;
+import com.dongxuexidu.douban4j.model.shuo.DoubanShuoMediaObj;
+import com.dongxuexidu.douban4j.model.shuo.DoubanShuoStatusObj;
+import com.dongxuexidu.douban4j.model.shuo.DoubanShuoUserObj;
+import com.dongxuexidu.douban4j.model.subject.DoubanSubjectObj;
 import com.dongxuexidu.douban4j.provider.OAuthDoubanProvider;
+import com.dongxuexidu.douban4j.service.DoubanBookMovieMusicService;
 import com.dongxuexidu.douban4j.service.DoubanMailService;
+import com.dongxuexidu.douban4j.service.DoubanShuoService;
+import com.google.api.client.http.json.JsonHttpContent;
 import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.client.xml.XmlNamespaceDictionary;
 import com.google.api.client.xml.XmlObjectParser;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,7 +46,7 @@ public class PlayGround {
    * xmlns:opensearch="http://a9.com/-/spec/opensearchrss/1.0/"> @param args
    */
   public static void main(String[] args) {
-    testSendingDoumail();
+    testFollowUser();
   }
   
   public static void testAtomParse () {
@@ -95,6 +109,126 @@ public class PlayGround {
     } catch (IOException ex) {
       Logger.getLogger(PlayGround.class.getName()).log(Level.SEVERE, null, ex);
     }
+  }
+  
+  public static void testGetBookInfo () {
+    try {
+      long bookId = 2023013;
+      DoubanBookMovieMusicService service = new DoubanBookMovieMusicService();
+      DoubanSubjectObj book = service.getMusicInfoById(2272292);
+      System.out.println("title : " + book.getTitle());
+      for (DoubanTagObj tag : book.getTags()) {
+        System.out.println("tag, count : " + tag.getCount() + " , name : " + tag.getName());
+      }
+      System.out.println("rating, min : " + book.getRating().getMin() + ", max : " + book.getRating().getMax() + " , value : " + book.getRating().getValue() + " , count : " + book.getRating().getNumberOfRaters() + " , avg : " + book.getRating().getAverage());
+      System.out.println("author : " + book.getAuthors().get(0).getName());
+      for (DoubanAttributeObj att : book.getAttributes()) {
+        System.out.println("att, name : " + att.getName() + " , value : " + att.getValue());
+      }
+      System.out.println("summary : " + book.getSummary());
+    } catch (DoubanException ex) {
+      Logger.getLogger(PlayGround.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (IOException ex) {
+      Logger.getLogger(PlayGround.class.getName()).log(Level.SEVERE, null, ex);
+    }
+  }
+  
+  public static void testGetDoubanShuoStatuses () {
+    try {
+      DoubanShuoService service = new DoubanShuoService();
+      DoubanShuoStatusObj[] result = service.getStatusesByUserId("uglytroll");
+      System.out.println("size : " + result.length);
+      for (DoubanShuoStatusObj s : result) {
+        System.out.println("text : " + s.getText() + " , title : " + s.getTitle());
+      }
+    } catch (DoubanException ex) {
+      Logger.getLogger(PlayGround.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (IOException ex) {
+      Logger.getLogger(PlayGround.class.getName()).log(Level.SEVERE, null, ex);
+    }
+  }
+  
+  public static void testPostStatus () {
+    try {
+      String accessToken = testAccessToken();
+      DoubanShuoService service = new DoubanShuoService();
+      DoubanShuoAttachementObj att = generateAtt();
+      if (service.postNewStatus("I like..",att, accessToken)) {
+        System.out.println("done!");
+      } else {
+        System.out.println("failed!");
+      }
+    } catch (DoubanException ex) {
+      Logger.getLogger(PlayGround.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (IOException ex) {
+      Logger.getLogger(PlayGround.class.getName()).log(Level.SEVERE, null, ex);
+    }
+  }
+  
+  public static void testGetDoubanShuoUser () {
+    try {
+      DoubanShuoService service = new DoubanShuoService();
+      DoubanShuoUserObj[] users = service.getFollowingUserByUserId("gisellefang");
+      for (DoubanShuoUserObj user : users) {
+        System.out.println("user name : " + user.getScreenName());
+        System.out.println("user id : " + user.getUid());
+        System.out.println("user full id : " + user.getId());
+      }
+      System.out.println("size : " + users.length);
+    } catch (DoubanException ex) {
+      Logger.getLogger(PlayGround.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (IOException ex) {
+      Logger.getLogger(PlayGround.class.getName()).log(Level.SEVERE, null, ex);
+    }
+  }
+  
+  public static void testFollowUser () {
+    try {
+      String accessToken = testAccessToken();
+      DoubanShuoService service = new DoubanShuoService();
+      boolean result = service.followUser("900021649", accessToken);
+      if (result) {
+        System.out.println("done!");
+      } else {
+        System.out.println("failed!");
+      }
+    } catch (DoubanException ex) {
+      Logger.getLogger(PlayGround.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (IOException ex) {
+      Logger.getLogger(PlayGround.class.getName()).log(Level.SEVERE, null, ex);
+    }
+  }
+  
+  private static void parseJson () {
+    try {
+      DoubanShuoAttachementObj att = generateAtt();
+      JsonHttpContent content = new JsonHttpContent(new JacksonFactory(), att);
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+      content.writeTo(os);
+      String result = new String(os.toByteArray());
+      System.out.println("result ! : " + result);
+      System.out.println("getdate : " + (String)content.getData());
+    } catch (IOException ex) {
+      Logger.getLogger(PlayGround.class.getName()).log(Level.SEVERE, null, ex);
+    }
+  }
+  
+  private static DoubanShuoAttachementObj generateAtt () {
+    DoubanShuoMediaObj media = new DoubanShuoMediaObj();
+    media.setHref("http://www.dongxuexidu.com");
+    media.setSrc("http://www.dongxuexidu.com/img/logo75.jpg");
+    media.setType("image");
+    DoubanShuoAttachementObj att = new DoubanShuoAttachementObj();
+    List<DoubanShuoMediaObj> ms = new ArrayList<DoubanShuoMediaObj>();
+    ms.add(media);
+    att.setMedias(ms);
+    att.setDescription("http://www.dongxuexidu.com");
+    att.setCaption("");
+    att.setExpanedHref("http://www.dongxuexidu.com");
+    att.setHref("http://www.dongxuexidu.com");
+    att.setTitle("东学西读");
+    att.setType("");
+    return att;
   }
   
 }

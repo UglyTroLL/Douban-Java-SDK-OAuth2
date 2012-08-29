@@ -10,7 +10,9 @@ import com.dongxuexidu.douban4j.utils.HttpManager;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.http.NameValuePair;
@@ -143,13 +145,13 @@ public class OAuthDoubanProvider {
   
   public AccessToken tradeAccessTokenWithCode (String code) throws DoubanException {
     try {
-      List<NameValuePair> params = new ArrayList<NameValuePair>();
-      params.add(new BasicNameValuePair("client_id", this.apiKey));
-      params.add(new BasicNameValuePair("client_secret", this.secretKey));
-      params.add(new BasicNameValuePair("redirect_uri", DefaultConfigs.ACCESS_TOKEN_REDIRECT_URL));
-      params.add(new BasicNameValuePair("grant_type", "authorization_code"));
-      params.add(new BasicNameValuePair("code", code));
-      String responseStr = new HttpManager().postResponseAsString(DefaultConfigs.ACCESS_TOKEN_URL, params);
+      Map<String,String> params = new HashMap<String, String>();
+      params.put("client_id", this.apiKey);
+      params.put("client_secret", this.secretKey);
+      params.put("redirect_uri", DefaultConfigs.ACCESS_TOKEN_REDIRECT_URL);
+      params.put("grant_type", "authorization_code");
+      params.put("code", code);
+      String responseStr = new HttpManager().postEncodedEntry(DefaultConfigs.ACCESS_TOKEN_URL, params, false);
       return Converters.stringToAccessToken(responseStr);
     } catch (UnsupportedEncodingException ex) {
       throw ErrorHandler.getCustomDoubanException(100, "Exception in trading access token : " + ex.toString());
