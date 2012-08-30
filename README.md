@@ -7,6 +7,8 @@
 
 豆瓣OAuth2 API Java SDK(由[东学西读](http://www.dongxuexidu.com)提供)
 
+欢迎加入东学西读的[豆瓣小站](http://site.douban.com/179782/)
+
 开源使用协议
 ---
 MIT License
