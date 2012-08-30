@@ -1,5 +1,5 @@
 >"人人的SDK太潦草，微博的太混乱，豆瓣儿的不能再这样了"
->>> --- [UglyTroLL](http://www.douban.com/people/uglytroll/) from [东学西读](http://www.dongxuexidu.com)
+>> --- [UglyTroLL](http://www.douban.com/people/uglytroll/) from [东学西读](http://www.dongxuexidu.com)
 
 豆瓣OAuth2 API Java SDK (几乎完全版) v0.727
 ======================================
