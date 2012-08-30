@@ -37,14 +37,16 @@ MIT License
 * **使用Maven编译打包** - `(**推荐**)`
 由于项目本身就是一个Maven项目，所以使用Maven最方便.
 如果您的项目本身就是一个Maven项目，那么直接在您项目的pom.xml中加入依赖:
+
 ```xml
 <dependency>
-<groupId>com.zhibo</groupId>
-<artifactId>Douban4jOAuth2</artifactId>
-<version>1.0-SNAPSHOT</version>
+  <groupId>com.zhibo</groupId>
+  <artifactId>Douban4jOAuth2</artifactId>
+  <version>1.0-SNAPSHOT</version>
 </dependency>
 ```
-, 然后编译SDK,**编译时请务必跳过所有test**,编译命令使用mvn package或mvn install,根据您自己的需要(如果您不明白两者的区别，请google Maven的基础知识)。例子如下:
+
+然后编译SDK,**编译时请务必跳过所有test**(不然会通不过无法编译，因为很多测试用例都是需要accessToken的),编译命令使用mvn package或mvn install,根据您自己的需要(如果您不明白两者的区别，请google Maven的基础知识)。例子如下:
 ```
 mvn package -Dmaven.test.skip=true
 ```
