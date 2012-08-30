@@ -53,8 +53,7 @@ public class DoubanNoteService extends DoubanService {
     DoubanNoteFeedObj result = this.client.getResponse(url, params, DoubanNoteFeedObj.class, false);
     return result;
   }
-  
-  @UnTested
+
   public boolean createNewNote (String title, String content, boolean isPrivate, boolean canReply, String accessToken) throws DoubanException, IOException {
     setAccessToken(accessToken);
     DoubanNoteEntryObj entry = generateDoubanNoteEntry(title, content, isPrivate, canReply);
@@ -76,8 +75,7 @@ public class DoubanNoteService extends DoubanService {
       }
     }
   }
-  
-  @UnTested
+
   public boolean updateNote (long noteId, String title, String content, boolean isPrivate, boolean canReply, String accessToken) throws DoubanException, IOException {
     setAccessToken(accessToken);
     DoubanNoteEntryObj entry = generateDoubanNoteEntry(title, content, isPrivate, canReply);
@@ -99,8 +97,7 @@ public class DoubanNoteService extends DoubanService {
       }
     }
   }
-  
-  @UnTested
+
   public boolean deleteNote (long noteId, String accessToken) throws DoubanException, IOException {
     setAccessToken(accessToken);
     try {
@@ -132,12 +129,14 @@ public class DoubanNoteService extends DoubanService {
       return null;
     }
     List<DoubanAttributeObj> atts = new ArrayList<DoubanAttributeObj>();
+    DoubanAttributeObj privateAtt = new DoubanAttributeObj();
+    privateAtt.setName("privacy");
     if (isPrivate) {
-      DoubanAttributeObj privateAtt = new DoubanAttributeObj();
-      privateAtt.setName("privacy");
       privateAtt.setValue("private");
-      atts.add(privateAtt);
+    } else {
+      privateAtt.setValue("public");
     }
+    atts.add(privateAtt);
     DoubanAttributeObj replyAtt = new DoubanAttributeObj();
     replyAtt.setName("can_reply");
     replyAtt.setValue(canReply ? "yes" : "no");

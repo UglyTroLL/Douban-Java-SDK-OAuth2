@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import net.sf.json.JSONObject;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -54,6 +55,15 @@ public class DoubanShuoService extends DoubanService {
     public abstract String getValue();
   }
   
+  public static enum DoubanShuoRelation {
+    
+    FollowingOnly,
+    BeFollowedOnly,
+    Stranger,
+    Friend;
+    
+  }
+  
   final static Logger logger = Logger.getLogger(DoubanShuoService.class.getName());
 
   public DoubanShuoService(String accessToken) {
@@ -64,11 +74,11 @@ public class DoubanShuoService extends DoubanService {
     super();
   }
   
-  public DoubanShuoStatusObj[] getStatusesForLoggedInUser (String accessToken) throws DoubanException, IOException {
-    return getStatusesForLoggedInUser(accessToken, null, null, null, null);
+  public DoubanShuoStatusObj[] getHomeTimelineForLoggedInUser (String accessToken) throws DoubanException, IOException {
+    return getHomeTimelineForLoggedInUser(accessToken, null, null, null, null);
   }
   
-  public DoubanShuoStatusObj[] getStatusesForLoggedInUser (String accessToken, Long sinceId, Long untilId, Integer count, DoubanShuoCategory category) throws DoubanException, IOException {
+  public DoubanShuoStatusObj[] getHomeTimelineForLoggedInUser (String accessToken, Long sinceId, Long untilId, Integer count, DoubanShuoCategory category) throws DoubanException, IOException {
     setAccessToken(accessToken);
     String url = RequestUrls.DOUBAN_SHUO_STATUS_PREFIX + "/home_timeline";
     List<NameValuePair> params = generateParams(sinceId, untilId, count, category);
@@ -87,26 +97,27 @@ public class DoubanShuoService extends DoubanService {
     return result;
   }
   
-  public boolean postNewStatus (String content, DoubanShuoAttachementObj att, String accessToken) throws DoubanException, IOException {
+  public boolean postNewStatus (String content, DoubanShuoAttachementObj att, String appKey, String accessToken) throws DoubanException, IOException {
     setAccessToken(accessToken);
     if (content == null || content.isEmpty()) {
       throw ErrorHandler.missingRequiredParam();
     }
     Map<String, String> params = new HashMap<String, String>();
-    params.put("source", DefaultConfigs.API_KEY);
+    params.put("source", appKey);
     params.put("text", content);
     if (att != null) {
 //      DoubanShuoStatusObj stau = new DoubanShuoStatusObj();
 //      List<DoubanShuoAttachementObj> atts = new ArrayList<DoubanShuoAttachementObj>();
 //      atts.add(att);
 //      stau.setAttachements(atts);
-      String attStr = Converters.parseDoubanObjToJSONStr(att);
+      DoubanShuoAttachementObj[] atts = {att};
+      String attStr = Converters.parseDoubanObjToJSONStr(atts);
       System.out.println("attstr : " + attStr);
       params.put("attachments", attStr);
     }
     try {
       String result = this.client.postEncodedEntry(RequestUrls.DOUBAN_SHUO_STATUS_PREFIX + "/", params, true);
-      logger.info(result);
+      logger.info("new post : " + result);
       return true;
     } catch (UnsupportedEncodingException ex) {
       logger.warning(ex.getMessage());
@@ -132,22 +143,58 @@ public class DoubanShuoService extends DoubanService {
     return result;
   }
   
-  public boolean followUser (String targetId, String accessToken) throws DoubanException, IOException {
+  public boolean followUser (String targetId, String appKey, String accessToken) throws DoubanException, IOException {
     setAccessToken(accessToken);
     if (targetId == null || targetId.isEmpty()) {
       throw ErrorHandler.missingRequiredParam();
     }
     Map<String, String> params = new HashMap<String, String>();
-    params.put("source", DefaultConfigs.API_KEY);
+    params.put("source", appKey);
     params.put("user_id", targetId);
     String url = RequestUrls.DOUBAN_SHUO_FRIENDSHIP_PREFIX + "/create";
     try {
       String result = this.client.postEncodedEntry(url, params, true);
-      logger.info(result);
+      logger.info("new following user : " + result);
       return true;
     } catch (UnsupportedEncodingException ex) {
       logger.warning(ex.getMessage());
       return false;
+    }
+  }
+  
+  public DoubanShuoRelation getRelationship (String sourceId, String targetId, String appKey) throws DoubanException, IOException {
+    String url = RequestUrls.DOUBAN_SHUO_FRIENDSHIP_PREFIX + "/show";
+    Map<String, String> params = new HashMap<String, String>();
+    params.put("source", appKey);
+    params.put("source_id", sourceId);
+    params.put("target_id", targetId);
+    try {
+      String result = this.client.postEncodedEntry(url, params, false);
+      DoubanShuoRelation relation = determineRelation(result);
+      return relation;
+    } catch (UnsupportedEncodingException ex) {
+      logger.warning(ex.getMessage());
+      return null;
+    }
+  }
+  
+  private DoubanShuoRelation determineRelation (String result) {
+    JSONObject obj = JSONObject.fromObject(result.trim());
+    if (obj.containsKey("source") && obj.containsKey("target")) {
+      JSONObject source = obj.getJSONObject("source");
+      boolean following = source.getBoolean("following");
+      boolean followedBy = source.getBoolean("followed_by");
+      if (following && (!followedBy)) {
+        return DoubanShuoRelation.FollowingOnly;
+      } else if ((!following) && followedBy) {
+        return DoubanShuoRelation.BeFollowedOnly;
+      } else if (following && followedBy) {
+        return DoubanShuoRelation.Friend;
+      } else {
+        return DoubanShuoRelation.Stranger;
+      }
+    } else {
+      return null;
     }
   }
   

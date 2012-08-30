@@ -50,7 +50,7 @@ public class DoubanReviewService extends DoubanService {
     super(accessToken);
   }
   
-  public DoubanReviewEntryObj getReviewById (String reviewId) throws DoubanException, IOException {
+  public DoubanReviewEntryObj getReviewById (long reviewId) throws DoubanException, IOException {
     String url = RequestUrls.DOUBAN_REVIEW_PREFIX + "/" + reviewId;
     DoubanReviewEntryObj result = this.client.getResponse(url, null, DoubanReviewEntryObj.class, false);
     return result;
@@ -66,12 +66,12 @@ public class DoubanReviewService extends DoubanService {
    * Book
    */
   
-  public DoubanReviewFeedObj getBookReviewsBySubjectId (String subjectId) throws DoubanException, IOException {
+  public DoubanReviewFeedObj getBookReviewsBySubjectId (long subjectId) throws DoubanException, IOException {
     String url = RequestUrls.DOUBAN_BOOK_SUBJECT_PREFIX + "/" + subjectId + "/reviews";
     return getReviewList(url, null, null, null);
   }
   
-  public DoubanReviewFeedObj getBookReviewsBySubjectId (String subjectId, int startIndex, int maxResult, ReviewOrderBy orderBy) throws DoubanException, IOException {
+  public DoubanReviewFeedObj getBookReviewsBySubjectId (long subjectId, int startIndex, int maxResult, ReviewOrderBy orderBy) throws DoubanException, IOException {
     String url = RequestUrls.DOUBAN_BOOK_SUBJECT_PREFIX + "/" + subjectId + "/reviews";
     return getReviewList(url, startIndex, maxResult, orderBy);
   }
@@ -90,12 +90,12 @@ public class DoubanReviewService extends DoubanService {
    * Movie
    */
   
-  public DoubanReviewFeedObj getMovieReviewsBySubjectId (String subjectId) throws DoubanException, IOException {
+  public DoubanReviewFeedObj getMovieReviewsBySubjectId (long subjectId) throws DoubanException, IOException {
     String url = RequestUrls.DOUBAN_MOVIE_SUBJECT_PREFIX + "/" + subjectId + "/reviews";
     return getReviewList(url, null, null, null);
   }
   
-  public DoubanReviewFeedObj getMovieReviewsBySubjectId (String subjectId, int startIndex, int maxResult, ReviewOrderBy orderBy) throws DoubanException, IOException {
+  public DoubanReviewFeedObj getMovieReviewsBySubjectId (long subjectId, int startIndex, int maxResult, ReviewOrderBy orderBy) throws DoubanException, IOException {
     String url = RequestUrls.DOUBAN_MOVIE_SUBJECT_PREFIX + "/" + subjectId + "/reviews";
     return getReviewList(url, startIndex, maxResult, orderBy);
   }
@@ -114,12 +114,12 @@ public class DoubanReviewService extends DoubanService {
    * Music
    */
   
-  public DoubanReviewFeedObj getMusicReviewsBySubjectId (String subjectId) throws DoubanException, IOException {
+  public DoubanReviewFeedObj getMusicReviewsBySubjectId (long subjectId) throws DoubanException, IOException {
     String url = RequestUrls.DOUBAN_MUSIC_SUBJECT_PREFIX + "/" + subjectId + "/reviews";
     return getReviewList(url, null, null, null);
   }
   
-  public DoubanReviewFeedObj getMusicReviewsBySubjectId (String subjectId, int startIndex, int maxResult, ReviewOrderBy orderBy) throws DoubanException, IOException {
+  public DoubanReviewFeedObj getMusicReviewsBySubjectId (long subjectId, int startIndex, int maxResult, ReviewOrderBy orderBy) throws DoubanException, IOException {
     String url = RequestUrls.DOUBAN_MUSIC_SUBJECT_PREFIX + "/" + subjectId + "/reviews";
     return getReviewList(url, startIndex, maxResult, orderBy);
   }
@@ -138,16 +138,15 @@ public class DoubanReviewService extends DoubanService {
     DoubanReviewFeedObj result = this.client.getResponse(url, params, DoubanReviewFeedObj.class, false);
     return result;
   }
-  
-  @UnTested
-  public boolean addNewReview (String subjectId, String content, int rating, String title, String accessToken) throws DoubanException, IOException {
+
+  public boolean addNewReview (long subjectId, String content, int rating, String title, String accessToken) throws DoubanException, IOException {
     setAccessToken(accessToken);
     DoubanReviewEntryObj obj = generateReviewObj(subjectId, content, rating, title, null);
     if (obj == null) {
       throw ErrorHandler.getCustomDoubanException(100, "Review data is not correct, please double check");
     }
     try {
-      int responseCode = this.client.postResponseCodeOnly(RequestUrls.DOUBAN_REVIEW_PREFIX, obj, true);
+      int responseCode = this.client.postResponseCodeOnly(RequestUrls.DOUBAN_REVIEW_PREFIX + "s", obj, true);
       if (responseCode != StatusCode.HTTP_STATUS_CREATED) {
         return false;
       }
@@ -161,16 +160,15 @@ public class DoubanReviewService extends DoubanService {
       }
     }
   }
-  
-  @UnTested
-  public boolean updateReview (String reviewUrl, String subjectId, String content, String title, int rating, String accessToken) throws DoubanException, IOException {
+
+  public boolean updateReview (long reviewId, long subjectId, String content, String title, int rating, String accessToken) throws DoubanException, IOException {
     setAccessToken(accessToken);
-    DoubanReviewEntryObj obj = generateReviewObj(subjectId, content, rating, title, reviewUrl);
+    DoubanReviewEntryObj obj = generateReviewObj(subjectId, content, rating, title, reviewId);
     if (obj == null) {
       throw ErrorHandler.getCustomDoubanException(100, "Review data is not correct, please double check");
     }
     try {
-      int responseCode = this.client.putResponseCodeOnly(reviewUrl, obj, true);
+      int responseCode = this.client.putResponseCodeOnly(RequestUrls.DOUBAN_REVIEW_PREFIX + "/" + reviewId, obj, true);
       if (responseCode != StatusCode.HTTP_STATUS_ACCEPTED) {
         return false;
       }
@@ -184,12 +182,11 @@ public class DoubanReviewService extends DoubanService {
       }
     }
   }
-  
-  @UnTested
-  public boolean deleteReview (String reviewUrl, String accessToken) throws DoubanException, IOException {
+
+  public boolean deleteReview (long reviewId, String accessToken) throws DoubanException, IOException {
     setAccessToken(accessToken);
     try {
-      int responseCode = this.client.deleteResponse(reviewUrl, true);
+      int responseCode = this.client.deleteResponse(RequestUrls.DOUBAN_REVIEW_PREFIX + "/" + reviewId, true);
       if (responseCode != StatusCode.HTTP_STATUS_OK) {
         return false;
       }
@@ -204,18 +201,14 @@ public class DoubanReviewService extends DoubanService {
     }
   }
   
-  private DoubanReviewEntryObj generateReviewObj (String subjectId, String content, int rating, String title, String reviewUrl) {
+  private DoubanReviewEntryObj generateReviewObj (long subjectId, String content, int rating, String title, Long reviewUrl) {
     DoubanReviewEntryObj obj = new DoubanReviewEntryObj();
-    if (reviewUrl != null && reviewUrl.length() > 0) {
-      obj.setId(reviewUrl);
+    if (reviewUrl != null) {
+      obj.setId(RequestUrls.DOUBAN_REVIEW_PREFIX + "/" + reviewUrl);
     }
-    if (subjectId != null && subjectId.length() > 0) {
-      DoubanSubjectObj sub = new DoubanSubjectObj();
-      sub.setId(subjectId);
-      obj.setSubject(sub);
-    } else {
-      return null;
-    }
+    DoubanSubjectObj sub = new DoubanSubjectObj();
+    sub.setId("" + subjectId);
+    obj.setSubject(sub);
     if (content != null && content.length() > 0) {
       obj.setContent(content);
     } else {
@@ -232,7 +225,7 @@ public class DoubanReviewService extends DoubanService {
     } else if (rating < 1) {
       rating = 1;
     }
-    rat.setValue("" + rating);
+    rat.setValue(rating);
     obj.setRating(rat);
     return obj;
   }

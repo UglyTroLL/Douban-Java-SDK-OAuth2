@@ -88,6 +88,16 @@ public class DoubanMailService extends DoubanService {
     return result;
   }
 
+  /**
+   * Didn't do anything with the Captcha
+   * 
+   * @param receiverId
+   * @param content
+   * @param title
+   * @return true if successfully sent (or captcha is needed), false otherwise
+   * @throws DoubanException
+   * @throws IOException 
+   */
   public boolean sendMail(String receiverId, String content, String title) throws DoubanException, IOException {
     String url = RequestUrls.DOUBAN_MAIL_PREFIX + "s";
     DoubanMailEntryObj entry = generateDoubanMailEntryObj(receiverId, content, title);

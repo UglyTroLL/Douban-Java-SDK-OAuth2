@@ -3,6 +3,7 @@ package com.dongxuexidu.douban4j.utils;
 import com.dongxuexidu.douban4j.constants.DefaultConfigs;
 import com.dongxuexidu.douban4j.model.IDoubanObject;
 import com.dongxuexidu.douban4j.model.app.DoubanException;
+import com.dongxuexidu.douban4j.model.user.DoubanUserObj;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpRequest;
@@ -129,6 +130,9 @@ public class HttpManager {
     AtomContent content = null;
     if (requestObj != null) {
       content = AtomContent.forEntry(DefaultConfigs.DOUBAN_XML_NAMESPACE, requestObj);
+    } else {
+      //Obviously the null content (proved) is not accecptable to Douban's API. Therefore, this empty obj is added for fooling Douban around, they don't care what's inside it anyway.
+      content = AtomContent.forEntry(DefaultConfigs.DOUBAN_XML_NAMESPACE, new DoubanUserObj());
     }
     HttpRequest method = requestFactory.buildPostRequest(new GenericUrl(url), content);
     HttpResponse response = httpRequest(method, needAccessToken);

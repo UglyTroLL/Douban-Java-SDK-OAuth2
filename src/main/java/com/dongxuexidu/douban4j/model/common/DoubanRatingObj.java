@@ -68,13 +68,6 @@ public class DoubanRatingObj implements IDoubanObject{
   }
 
   /**
-   * @param value the value to set
-   */
-  public void setValue(String value) {
-    this.setValue(value);
-  }
-
-  /**
    * @return the numberOfRaters
    */
   public int getNumberOfRaters() {

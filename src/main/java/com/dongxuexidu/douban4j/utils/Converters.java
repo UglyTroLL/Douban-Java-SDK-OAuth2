@@ -1,9 +1,11 @@
 package com.dongxuexidu.douban4j.utils;
 
+import com.dongxuexidu.douban4j.constants.DefaultConfigs;
 import com.dongxuexidu.douban4j.model.IDoubanObject;
 import com.dongxuexidu.douban4j.model.app.AccessToken;
 import com.dongxuexidu.douban4j.model.app.DoubanException;
 import com.google.api.client.http.json.JsonHttpContent;
+import com.google.api.client.http.xml.XmlHttpContent;
 import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.client.util.DateTime;
 import java.io.ByteArrayOutputStream;
@@ -71,8 +73,16 @@ public class Converters {
     }
   }
 
-  public static <T extends IDoubanObject> String parseDoubanObjToJSONStr(T obj) throws IOException {
+  public static <T> String parseDoubanObjToJSONStr(T obj) throws IOException {
     JsonHttpContent content = new JsonHttpContent(new JacksonFactory(), obj);
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    content.writeTo(os);
+    String result = new String(os.toByteArray());
+    return result;
+  }
+  
+  public static <T> String parseDoubanObjToXMLStr(T obj) throws IOException {
+    XmlHttpContent content = new XmlHttpContent(DefaultConfigs.DOUBAN_XML_NAMESPACE, "entry", obj);
     ByteArrayOutputStream os = new ByteArrayOutputStream();
     content.writeTo(os);
     String result = new String(os.toByteArray());

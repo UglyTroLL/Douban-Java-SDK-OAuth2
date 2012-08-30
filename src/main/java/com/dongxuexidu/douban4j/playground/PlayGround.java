@@ -1,5 +1,6 @@
 package com.dongxuexidu.douban4j.playground;
 
+import com.dongxuexidu.douban4j.constants.DefaultConfigs;
 import com.dongxuexidu.douban4j.model.app.AccessToken;
 import com.dongxuexidu.douban4j.model.app.DoubanException;
 import com.dongxuexidu.douban4j.model.app.RequestGrantScope;
@@ -46,7 +47,7 @@ public class PlayGround {
    * xmlns:opensearch="http://a9.com/-/spec/opensearchrss/1.0/"> @param args
    */
   public static void main(String[] args) {
-    testFollowUser();
+    testAccessToken();
   }
   
   public static void testAtomParse () {
@@ -74,7 +75,10 @@ public class PlayGround {
   public static String testAccessToken() {
     try {
       OAuthDoubanProvider oauth = new OAuthDoubanProvider();
-      //oauth.addScope(new RequestGrantScope("", RequestGrantScope.SCOPE_MAIL_READ, "")).addScope(new RequestGrantScope("", RequestGrantScope.SCOPE_MAIL_WRITE, ""));
+      oauth.setApiKey("xxx").setSecretKey("xxx");
+      oauth.addScope(RequestGrantScope.BASIC_COMMON_SCOPE).addScope(RequestGrantScope.SHUO_READ_SCOPE).addScope(RequestGrantScope.SHUO_WRITE_SCOPE)
+              .addScope(RequestGrantScope.BASIC_NOTE_SCOPE).addScope(RequestGrantScope.BOOK_READ_SCOPE).addScope(RequestGrantScope.EVENT_READ_SCOPE).addScope(RequestGrantScope.EVENT_WRITE_SCOPE)
+              .addScope(RequestGrantScope.MAIL_READ_SCOPE).addScope(RequestGrantScope.MAIL_WRITE_SCOPE).addScope(RequestGrantScope.MOVIE_READ_SCOPE).addScope(RequestGrantScope.MUSIC_READ_SCOPE);
       oauth.setRedirectUrl("http://www.dongxuexidu.com");
       BrowserLauncher.openURL(oauth.getGetCodeRedirectUrl());
       System.out.println(oauth.getGetCodeRedirectUrl());
@@ -136,7 +140,7 @@ public class PlayGround {
   public static void testGetDoubanShuoStatuses () {
     try {
       DoubanShuoService service = new DoubanShuoService();
-      DoubanShuoStatusObj[] result = service.getStatusesByUserId("uglytroll");
+      DoubanShuoStatusObj[] result = service.getStatusesByUserId("xxx");
       System.out.println("size : " + result.length);
       for (DoubanShuoStatusObj s : result) {
         System.out.println("text : " + s.getText() + " , title : " + s.getTitle());
@@ -153,7 +157,7 @@ public class PlayGround {
       String accessToken = testAccessToken();
       DoubanShuoService service = new DoubanShuoService();
       DoubanShuoAttachementObj att = generateAtt();
-      if (service.postNewStatus("I like..",att, accessToken)) {
+      if (service.postNewStatus("I like..", att, DefaultConfigs.API_KEY, accessToken)) {
         System.out.println("done!");
       } else {
         System.out.println("failed!");
@@ -168,7 +172,7 @@ public class PlayGround {
   public static void testGetDoubanShuoUser () {
     try {
       DoubanShuoService service = new DoubanShuoService();
-      DoubanShuoUserObj[] users = service.getFollowingUserByUserId("gisellefang");
+      DoubanShuoUserObj[] users = service.getFollowingUserByUserId("xxx");
       for (DoubanShuoUserObj user : users) {
         System.out.println("user name : " + user.getScreenName());
         System.out.println("user id : " + user.getUid());
@@ -186,11 +190,31 @@ public class PlayGround {
     try {
       String accessToken = testAccessToken();
       DoubanShuoService service = new DoubanShuoService();
-      boolean result = service.followUser("900021649", accessToken);
+      boolean result = service.followUser("xxx", DefaultConfigs.API_KEY,accessToken);
       if (result) {
         System.out.println("done!");
       } else {
         System.out.println("failed!");
+      }
+    } catch (DoubanException ex) {
+      Logger.getLogger(PlayGround.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (IOException ex) {
+      Logger.getLogger(PlayGround.class.getName()).log(Level.SEVERE, null, ex);
+    }
+  }
+  
+  public static void testGetRelationShip() {
+    try {
+      DoubanShuoService service = new DoubanShuoService();
+      DoubanShuoService.DoubanShuoRelation relation = service.getRelationship("xxx", "xxx", DefaultConfigs.API_KEY);
+      if (relation == DoubanShuoService.DoubanShuoRelation.FollowingOnly) {
+        System.out.println("following");
+      } else if (relation == DoubanShuoService.DoubanShuoRelation.BeFollowedOnly) {
+        System.out.println("followed by");
+      } else if (relation == DoubanShuoService.DoubanShuoRelation.Friend) {
+        System.out.println("friend");
+      } else {
+        System.out.println("stranger");
       }
     } catch (DoubanException ex) {
       Logger.getLogger(PlayGround.class.getName()).log(Level.SEVERE, null, ex);

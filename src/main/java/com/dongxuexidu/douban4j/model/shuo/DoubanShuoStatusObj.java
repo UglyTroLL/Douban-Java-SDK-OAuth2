@@ -14,9 +14,6 @@ public class DoubanShuoStatusObj implements IDoubanObject{
   @Key("reshared_count")
   private int resharedCount = 0;
   
-  @Key("object_kind")
-  private int objectKind = 0;
-  
   @Key("text")
   private String text;
   
@@ -35,11 +32,12 @@ public class DoubanShuoStatusObj implements IDoubanObject{
   @Key("category")
   private String category;
   
-  @Key("can_reply")
-  private int canReply;
+  //WTF with this one?
+//  @Key("can_reply")
+//  private boolean canReply;
   
-  @Key("layout")
-  private int layout;
+//  @Key("layout")
+//  private int layout;
   
   @Key("title")
   private String title;
@@ -68,8 +66,8 @@ public class DoubanShuoStatusObj implements IDoubanObject{
   @Key("action")
   private String action;
   
-  @Key("tmpl_ver")
-  private int tmplVer;
+//  @Key("tmpl_ver")
+//  private int tmplVer;
   
   @Key("type")
   private String type;
@@ -100,20 +98,6 @@ public class DoubanShuoStatusObj implements IDoubanObject{
    */
   public void setResharedCount(int resharedCount) {
     this.resharedCount = resharedCount;
-  }
-
-  /**
-   * @return the objectKind
-   */
-  public int getObjectKind() {
-    return objectKind;
-  }
-
-  /**
-   * @param objectKind the objectKind to set
-   */
-  public void setObjectKind(int objectKind) {
-    this.objectKind = objectKind;
   }
 
   /**
@@ -200,33 +184,33 @@ public class DoubanShuoStatusObj implements IDoubanObject{
     this.category = category;
   }
 
-  /**
-   * @return the canReply
-   */
-  public int getCanReply() {
-    return canReply;
-  }
+//  /**
+//   * @return the canReply
+//   */
+//  public boolean canReply() {
+//    return canReply;
+//  }
+//
+//  /**
+//   * @param canReply the canReply to set
+//   */
+//  public void setCanReply(boolean canReply) {
+//    this.canReply = canReply;
+//  }
 
-  /**
-   * @param canReply the canReply to set
-   */
-  public void setCanReply(int canReply) {
-    this.canReply = canReply;
-  }
-
-  /**
-   * @return the layout
-   */
-  public int getLayout() {
-    return layout;
-  }
-
-  /**
-   * @param layout the layout to set
-   */
-  public void setLayout(int layout) {
-    this.layout = layout;
-  }
+//  /**
+//   * @return the layout
+//   */
+//  public int getLayout() {
+//    return layout;
+//  }
+//
+//  /**
+//   * @param layout the layout to set
+//   */
+//  public void setLayout(int layout) {
+//    this.layout = layout;
+//  }
 
   /**
    * @return the title
@@ -340,19 +324,19 @@ public class DoubanShuoStatusObj implements IDoubanObject{
     this.action = action;
   }
 
-  /**
-   * @return the tmplVer
-   */
-  public int getTmplVer() {
-    return tmplVer;
-  }
-
-  /**
-   * @param tmplVer the tmplVer to set
-   */
-  public void setTmplVer(int tmplVer) {
-    this.tmplVer = tmplVer;
-  }
+//  /**
+//   * @return the tmplVer
+//   */
+//  public int getTmplVer() {
+//    return tmplVer;
+//  }
+//
+//  /**
+//   * @param tmplVer the tmplVer to set
+//   */
+//  public void setTmplVer(int tmplVer) {
+//    this.tmplVer = tmplVer;
+//  }
 
   /**
    * @return the type

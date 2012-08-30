@@ -2,6 +2,7 @@ package com.dongxuexidu.douban4j.service;
 
 import com.dongxuexidu.douban4j.constants.RequestUrls;
 import com.dongxuexidu.douban4j.constants.StatusCode;
+import com.dongxuexidu.douban4j.model.UnTested;
 import com.dongxuexidu.douban4j.model.app.DoubanException;
 import com.dongxuexidu.douban4j.model.common.DoubanAttributeObj;
 import com.dongxuexidu.douban4j.model.common.DoubanCategoryObj;
@@ -238,10 +239,11 @@ public class DoubanEventService extends DoubanService {
     } else {
       params.add(new BasicNameValuePair("location", "all"));
     }
-    DoubanEventFeedObj result = this.client.getResponse(RequestUrls.DOUBAN_EVENT_PREFIX, params, DoubanEventFeedObj.class, false);
+    DoubanEventFeedObj result = this.client.getResponse(RequestUrls.DOUBAN_EVENT_PREFIX + "s", params, DoubanEventFeedObj.class, false);
     return result;
   }
   
+  @UnTested
   public boolean updateEvent(long eventId, String title, EventType type, String content, boolean inviteOnly, boolean canInvite, Date startTime, Date endTime, String where, String accessToken) throws DoubanException, IOException {
     setAccessToken(accessToken);
     DoubanEventEntryObj entry = generateEventEntryObj(title, type, content, inviteOnly, canInvite, startTime, endTime, where);
@@ -264,15 +266,18 @@ public class DoubanEventService extends DoubanService {
     }
   }
 
+  @UnTested
   public boolean postNewEvent(String title, EventType type, String content, boolean inviteOnly, boolean canInvite, Date startTime, Date endTime, String where, String accessToken) throws DoubanException, IOException {
     setAccessToken(accessToken);
     DoubanEventEntryObj entry = generateEventEntryObj(title, type, content, inviteOnly, canInvite, startTime, endTime, where);
+    System.out.println("cat string : " + Converters.parseDoubanObjToXMLStr(entry));
     if (entry == null) {
       throw ErrorHandler.getCustomDoubanException(100, "Illegal event data provided");
     }
     try {
       int responseCode = this.client.postResponseCodeOnly(RequestUrls.DOUBAN_EVENT_PREFIX + "s", entry, true);
       if (responseCode != StatusCode.HTTP_STATUS_CREATED) {
+        //System.out.println("code : " + responseCode);
         return false;
       }
       return true;
@@ -286,6 +291,7 @@ public class DoubanEventService extends DoubanService {
     }
   }
   
+  @UnTested
   public boolean deleteEvent (long eventId, String content, String accessToken) throws DoubanException, IOException {
     setAccessToken(accessToken);
     DoubanEventEntryObj entry = new DoubanEventEntryObj();
@@ -382,8 +388,6 @@ public class DoubanEventService extends DoubanService {
       }
     }
   }
-  
-  //TODO : status update
 
   private DoubanEventEntryObj generateEventEntryObj(String title, EventType type, String content, boolean inviteOnly, boolean canInvite, Date startTime, Date endTime, String where) {
     DoubanEventEntryObj entry = new DoubanEventEntryObj();
@@ -401,6 +405,8 @@ public class DoubanEventService extends DoubanService {
       return null;
     }
     String typeStr = "http://www.douban.com/2007#event." + type.getValue();
+    
+    //<category scheme="http://www.douban.com/2007#kind" term="http://www.douban.com/2007#event.music"/>
     DoubanCategoryObj cat = new DoubanCategoryObj();
     cat.setScheme("http://www.douban.com/2007#kind");
     cat.setTerm(typeStr);

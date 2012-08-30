@@ -6,6 +6,7 @@ import com.dongxuexidu.douban4j.model.user.DoubanUserFeedObj;
 import com.dongxuexidu.douban4j.model.user.DoubanUserObj;
 import com.dongxuexidu.douban4j.utils.ErrorHandler;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.NameValuePair;
@@ -34,7 +35,7 @@ public class DoubanUserService extends DoubanService {
   
   public DoubanUserObj getLoggedInUserProfile (String accessToken) throws DoubanException, IOException {
     setAccessToken(accessToken);
-    DoubanUserObj result = this.client.getResponse(RequestUrls.DOUBAN_USER_PREFIX + "/@me", null, DoubanUserObj.class, true);
+    DoubanUserObj result = this.client.getResponse(RequestUrls.DOUBAN_USER_PREFIX + URLEncoder.encode("/@me", "utf-8"), null, DoubanUserObj.class, true);
     return result;
   }
   

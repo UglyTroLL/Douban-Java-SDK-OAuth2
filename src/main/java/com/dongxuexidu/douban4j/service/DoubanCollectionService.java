@@ -197,8 +197,7 @@ public class DoubanCollectionService extends DoubanService {
     return result;
   }
 
-  @UnTested
-  public boolean createNewCollection(CollectionStatus status, List<String> tags, int rating, String content, String subjectId, boolean isPrivate, String accessToken) throws DoubanException, IOException {
+  public boolean createNewCollection(CollectionStatus status, List<String> tags, int rating, String content, long subjectId, boolean isPrivate, String accessToken) throws DoubanException, IOException {
     setAccessToken(accessToken);
     DoubanCollectionObj collection = generateCollection(null, status, tags, rating, content, subjectId, isPrivate);
     if (collection == null) {
@@ -220,7 +219,7 @@ public class DoubanCollectionService extends DoubanService {
     }
   }
   
-  private DoubanCollectionObj generateCollection (Long id, CollectionStatus status, List<String> tags, int rating, String content, String subjectId, Boolean isPrivate) {
+  private DoubanCollectionObj generateCollection (Long id, CollectionStatus status, List<String> tags, int rating, String content, Long subjectId, Boolean isPrivate) {
     DoubanCollectionObj col = new DoubanCollectionObj();
     if (status != null) {
       col.setStatus(status.getValue());
@@ -236,7 +235,7 @@ public class DoubanCollectionService extends DoubanService {
     } else if (rating < 1) {
       rating = 1;
     }
-    rat.setValue("" + rating);
+    rat.setValue(rating);
     col.setRating(rat);
     if (tags != null && !tags.isEmpty()) {
       List<DoubanTagObj> tagsList = new ArrayList<DoubanTagObj>();
@@ -247,11 +246,11 @@ public class DoubanCollectionService extends DoubanService {
       }
       col.setTags(tagsList);
     }
-    if (subjectId == null || subjectId.isEmpty()) {
+    if (subjectId == null) {
       return null;
     }
     DoubanSubjectObj sub = new DoubanSubjectObj();
-    sub.setId(subjectId);
+    sub.setId("" + subjectId);
     col.setSubject(sub);
     col.setContent(content == null ? "" : content);
     if (isPrivate != null && isPrivate) {
@@ -265,8 +264,7 @@ public class DoubanCollectionService extends DoubanService {
     return col;
   }
 
-  @UnTested
-  public boolean updateCollection(Long collectionId, CollectionStatus status, List<String> tags, int rating, String content, String subjectId, String accessToken) throws DoubanException, IOException {
+  public boolean updateCollection(Long collectionId, CollectionStatus status, List<String> tags, int rating, String content, long subjectId, String accessToken) throws DoubanException, IOException {
     setAccessToken(accessToken);
     DoubanCollectionObj collection = generateCollection(collectionId, status, tags, rating, content, subjectId, null);
     if (collection == null || collectionId == null) {
@@ -275,6 +273,7 @@ public class DoubanCollectionService extends DoubanService {
     try {
       int responseCode = this.client.putResponseCodeOnly(RequestUrls.DOUBAN_COLLECTION_PREFIX + "/" + collectionId, collection, true);
       if (responseCode != StatusCode.HTTP_STATUS_ACCEPTED) {
+        //System.out.println("response code : " + responseCode);
         return false;
       }
       return true;
@@ -288,7 +287,6 @@ public class DoubanCollectionService extends DoubanService {
     }
   }
 
-  @UnTested
   public boolean deleteCollection(Long collectionId, String accessToken) throws DoubanException, IOException {
     setAccessToken(accessToken);
     if (collectionId == null) {
