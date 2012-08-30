@@ -37,18 +37,20 @@ MIT License
 如果您的项目本身就是一个Maven项目，那么直接在您项目的pom.xml中加入依赖:
 ```xml
 <dependency>
-      <groupId>com.zhibo</groupId>
-      <artifactId>Douban4jOAuth2</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
-```, 然后编译SDK,**编译时请务必跳过所有test**,编译命令使用mvn package或mvn install,根据您自己的需要(如果您不明白两者的区别，请google Maven的基础知识)。例子如下:
-`
+<groupId>com.zhibo</groupId>
+<artifactId>Douban4jOAuth2</artifactId>
+<version>1.0-SNAPSHOT</version>
+</dependency>
+```
+, 然后编译SDK,**编译时请务必跳过所有test**,编译命令使用mvn package或mvn install,根据您自己的需要(如果您不明白两者的区别，请google Maven的基础知识)。例子如下:
+```
 mvn package -Dmaven.test.skip=true
-`
+```
+
 OAuth认证流程
 ---
-1. 初始化.
-```java
+1. 初始化:
+```js
 OAuthDoubanProvider oauth = new OAuthDoubanProvider();
 oauth.setApiKey("xxx").setSecretKey("xxx");//设置Apikey和secretKey.
 /*
@@ -58,18 +60,19 @@ oauth.addScope(RequestGrantScope.BASIC_COMMON_SCOPE).addScope(......).//设置�
 oauth.setRedirectUrl("http://www.dongxuexidu.com");//设置回调地址
 .........
 ```
+
 2. 引导用户至豆瓣认证页面,该页面地址可以通过以下代码拿到:
-```java
+```js
 String redirectUrl = oauth.getGetCodeRedirectUrl();
 ```
 
 3. 通过你的回调地址获得code.
-```java
+```js
 String code = howeverYouGetIt();
 ```
 
-4.用code换accessToken.
-```java
+4. 用code换accessToken.
+```js
 AccessToken at = oauth.tradeAccessTokenWithCode(code);
 ```
 
