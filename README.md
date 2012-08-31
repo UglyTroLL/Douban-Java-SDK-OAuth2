@@ -35,7 +35,7 @@ MIT License
 有两种方式来整合SDK到您自己的项目中:
 
 * **在您的项目中包含SDK全部源码**
-那么，您需要自己下载三个依赖:[Apache commons-io 2.4](http://commons.apache.org/io/), [json-lib 2.3/2.4](http://sourceforge.net/projects/json-lib/files/)和[Google Http Java Client 1.10.x](http://code.google.com/p/google-http-java-client/)
+那么，您需要自己下载两个依赖:[json-lib 2.3/2.4](http://sourceforge.net/projects/json-lib/files/)和[Google Http Java Client 1.10.x](http://code.google.com/p/google-http-java-client/)
 * **使用Maven编译打包** - `(**推荐**)`
 由于项目本身就是一个Maven项目，所以使用Maven最方便.
 如果您的项目本身就是一个Maven项目，那么直接在您项目的pom.xml中加入依赖:
