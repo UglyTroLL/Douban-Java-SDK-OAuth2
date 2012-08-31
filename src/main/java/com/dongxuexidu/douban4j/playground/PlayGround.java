@@ -82,7 +82,7 @@ public class PlayGround {
       oauth.setRedirectUrl("http://www.dongxuexidu.com");
       BrowserLauncher.openURL(oauth.getGetCodeRedirectUrl());
       System.out.println(oauth.getGetCodeRedirectUrl());
-      System.out.print("Hit enter when it's done.[Enter]:");
+      System.out.print("Put the code you got here.[Enter]:");
       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
       String code = br.readLine();
       System.out.println("code : " + code);

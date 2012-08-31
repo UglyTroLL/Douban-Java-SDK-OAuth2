@@ -106,10 +106,6 @@ public class DoubanShuoService extends DoubanService {
     params.put("source", appKey);
     params.put("text", content);
     if (att != null) {
-//      DoubanShuoStatusObj stau = new DoubanShuoStatusObj();
-//      List<DoubanShuoAttachementObj> atts = new ArrayList<DoubanShuoAttachementObj>();
-//      atts.add(att);
-//      stau.setAttachements(atts);
       DoubanShuoAttachementObj[] atts = {att};
       String attStr = Converters.parseDoubanObjToJSONStr(atts);
       System.out.println("attstr : " + attStr);
