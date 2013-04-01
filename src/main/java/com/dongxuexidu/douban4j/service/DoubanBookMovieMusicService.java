@@ -1,16 +1,20 @@
 package com.dongxuexidu.douban4j.service;
 
-import com.dongxuexidu.douban4j.constants.RequestUrls;
-import com.dongxuexidu.douban4j.model.app.DoubanException;
-import com.dongxuexidu.douban4j.model.subject.DoubanSubjectFeedObj;
-import com.dongxuexidu.douban4j.model.subject.DoubanSubjectObj;
-import com.dongxuexidu.douban4j.utils.ErrorHandler;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+
+import com.dongxuexidu.douban4j.constants.RequestUrls;
+import com.dongxuexidu.douban4j.model.app.DoubanException;
+import com.dongxuexidu.douban4j.model.subject.DoubanSubjectFeedObj;
+import com.dongxuexidu.douban4j.model.subject.DoubanSubjectObj;
+import com.dongxuexidu.douban4j.model.v2.DoubanSubjectListObj;
+import com.dongxuexidu.douban4j.model.v2.DoubanV2SubjectObj;
+import com.dongxuexidu.douban4j.utils.ErrorHandler;
 
 /**
  *
@@ -52,6 +56,18 @@ public class DoubanBookMovieMusicService extends DoubanService {
     return movie;
   }
   
+  public DoubanSubjectListObj getMoviesTop250(int start, int count) throws DoubanException, IOException {
+    String url = RequestUrls.DOUBAN_MOVIE_V2_PREFIX + "/" + "top250?count=" + count;
+    DoubanSubjectListObj movie = this.client.getResponseInJson(url, null, DoubanSubjectListObj.class, false);
+    return movie;
+  }
+
+  public DoubanV2SubjectObj getV2MovieInfoById(long movieId) throws DoubanException, IOException {
+    String url = RequestUrls.DOUBAN_MOVIE_V2_SUBJECT_PREFIX + "/" + movieId;
+    DoubanV2SubjectObj movie = this.client.getResponseInJson(url, null, DoubanV2SubjectObj.class, false);
+    return movie;
+  }
+
   public DoubanSubjectObj getMusicInfoById (long musicId) throws DoubanException, IOException {
     String url = RequestUrls.DOUBAN_MUSIC_SUBJECT_PREFIX + "/" + musicId;
     DoubanSubjectObj music = this.client.getResponse(url, null, DoubanSubjectObj.class, false);
