@@ -3,6 +3,11 @@ package com.dongxuexidu.douban4j.model.v2;
 import com.dongxuexidu.douban4j.model.IDoubanObject;
 import com.google.api.client.util.Key;
 
+/**
+ * 
+ * @author Sean Guo <seanguo85@qq.com>
+ *
+ */
 public class DoubanRatingObj implements IDoubanObject {
   
   @Key

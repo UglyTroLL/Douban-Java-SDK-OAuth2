@@ -6,6 +6,11 @@ import java.util.List;
 import com.dongxuexidu.douban4j.model.IDoubanObject;
 import com.google.api.client.util.Key;
 
+/**
+ * 
+ * @author Sean Guo <seanguo85@qq.com>
+ *
+ */
 public class DoubanSubjectListObj implements IDoubanObject {
   
   @Key
@@ -18,7 +23,7 @@ public class DoubanSubjectListObj implements IDoubanObject {
   private int total;
   
   @Key
-  private List<DoubanV2SubjectObj> subjects = new ArrayList<DoubanV2SubjectObj>();
+  private List<DoubanSubjectObj> subjects = new ArrayList<DoubanSubjectObj>();
   
   @Key
   private String title;
@@ -40,7 +45,7 @@ public class DoubanSubjectListObj implements IDoubanObject {
     return total;
   }
 
-  public List<DoubanV2SubjectObj> getSubjects() {
+  public List<DoubanSubjectObj> getSubjects() {
     return subjects;
   }
 

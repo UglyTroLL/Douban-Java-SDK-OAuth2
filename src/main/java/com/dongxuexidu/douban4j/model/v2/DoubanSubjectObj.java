@@ -7,7 +7,12 @@ import com.dongxuexidu.douban4j.model.IDoubanObject;
 import com.dongxuexidu.douban4j.model.common.DoubanImageObj;
 import com.google.api.client.util.Key;
 
-public class DoubanV2SubjectObj implements IDoubanObject {
+/**
+ * 
+ * @author Sean Guo <seanguo85@qq.com>
+ *
+ */
+public class DoubanSubjectObj implements IDoubanObject {
   
   @Key
   private DoubanRatingObj rating;
@@ -124,13 +129,5 @@ public class DoubanV2SubjectObj implements IDoubanObject {
 
   public List<DoubanDirectorObj> getDirectors() {
     return directors;
-  }
-
-  @Override
-  public String toString() {
-    return "DoubanV2SubjectObj [rating=" + rating + ", title=" + title + ", original_title=" + original_title
-        + ", year=" + year + ", subtype=" + subtype + ", images=" + images + ", alt=" + alt + ", id=" + id
-        + ", summary=" + summary + ", casts=" + casts + ", aka=" + aka + ", genres=" + genres + ", countries="
-        + countries + ", comments_count=" + comments_count + ", ratings_count=" + ratings_count + "]";
   }
 }

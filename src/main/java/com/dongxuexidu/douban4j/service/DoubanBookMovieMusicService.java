@@ -13,7 +13,6 @@ import com.dongxuexidu.douban4j.model.app.DoubanException;
 import com.dongxuexidu.douban4j.model.subject.DoubanSubjectFeedObj;
 import com.dongxuexidu.douban4j.model.subject.DoubanSubjectObj;
 import com.dongxuexidu.douban4j.model.v2.DoubanSubjectListObj;
-import com.dongxuexidu.douban4j.model.v2.DoubanV2SubjectObj;
 import com.dongxuexidu.douban4j.utils.ErrorHandler;
 
 /**
@@ -62,9 +61,9 @@ public class DoubanBookMovieMusicService extends DoubanService {
     return movie;
   }
 
-  public DoubanV2SubjectObj getV2MovieInfoById(long movieId) throws DoubanException, IOException {
+  public com.dongxuexidu.douban4j.model.v2.DoubanSubjectObj getV2MovieInfoById(long movieId) throws DoubanException, IOException {
     String url = RequestUrls.DOUBAN_MOVIE_V2_SUBJECT_PREFIX + "/" + movieId;
-    DoubanV2SubjectObj movie = this.client.getResponseInJson(url, null, DoubanV2SubjectObj.class, false);
+    com.dongxuexidu.douban4j.model.v2.DoubanSubjectObj movie = this.client.getResponseInJson(url, null, com.dongxuexidu.douban4j.model.v2.DoubanSubjectObj.class, false);
     return movie;
   }
 

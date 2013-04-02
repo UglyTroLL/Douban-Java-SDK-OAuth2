@@ -4,6 +4,11 @@ import com.dongxuexidu.douban4j.model.IDoubanObject;
 import com.dongxuexidu.douban4j.model.common.DoubanImageObj;
 import com.google.api.client.util.Key;
 
+/**
+ * 
+ * @author Sean Guo <seanguo85@qq.com>
+ *
+ */
 public class DoubanDirectorObj implements IDoubanObject {
   
   @Key

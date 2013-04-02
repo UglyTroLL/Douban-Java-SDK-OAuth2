@@ -1,12 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.dongxuexidu.douban4j.model.common;
 
 import com.dongxuexidu.douban4j.model.IDoubanObject;
 import com.google.api.client.util.Key;
 
+/**
+ * 
+ * @author Sean Guo <seanguo85@qq.com>
+ *
+ */
 public class DoubanImageObj implements IDoubanObject {
 
 	@Override
