@@ -15,6 +15,10 @@
 ---
 MIT License
 
+更新日志
+---
+2013-04-01: 新增两个豆瓣V2电影的API： getMoviesTop250 与 getV2MovieInfoById 由[Sean Guo](https://github.com/seanguo)贡献
+
 注意
 ---
 现在本SDK是基于豆瓣OAuth 2.0 API的v1版，也就是使用GData 和 Atom作为数据传输类型的版本，使用JSON的v2版本尚未支持，因为其还处于测试阶段，稳定性和可靠性未知(而基于Atom的API豆瓣已经使用了多年)。
