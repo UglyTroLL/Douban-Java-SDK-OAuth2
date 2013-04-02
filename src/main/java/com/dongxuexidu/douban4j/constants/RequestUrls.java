@@ -28,6 +28,10 @@ public class RequestUrls {
   public static final String DOUBAN_MOVIE_SUBJECT_PREFIX = DefaultConfigs.API_URL_PREFIX + "/movie/subject";
   public static final String DOUBAN_MUSIC_SUBJECT_PREFIX = DefaultConfigs.API_URL_PREFIX + "/music/subject";
   
+  public static final String DOUBAN_MOVIE_V2_SUBJECT_PREFIX = DefaultConfigs.API_URL_PREFIX + "/v2/movie/subject";
+  
+  public static final String DOUBAN_MOVIE_V2_PREFIX = DefaultConfigs.API_URL_PREFIX + "/v2/movie";
+  
   /**
    * Note services
    */
