@@ -105,7 +105,7 @@ public class DoubanBookMovieMusicService extends DoubanService {
   
   private DoubanSubjectFeedObj searchSubject (String url, String q, String tag, Integer startIndex, Integer maxResult) throws DoubanException, IOException {
     List<NameValuePair> params = new ArrayList<NameValuePair>();
-    if (q != null || q.length() > 0) {
+    if (q != null && q.length() > 0) {
       params.add(new BasicNameValuePair("q", q));
     }
     if (tag != null && tag.length() > 0) {
