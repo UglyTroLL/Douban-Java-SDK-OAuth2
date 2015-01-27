@@ -1,28 +1,12 @@
->"人人的SDK太潦草，微博的太混乱，豆瓣儿的不能再这样了"
->> --- [UglyTroLL](http://www.douban.com/people/uglytroll/) from [东学西读](http://www.dongxuexidu.com)
+
 
 豆瓣OAuth2 API Java SDK (几乎完全版) v0.727
 ======================================
 
-豆瓣OAuth2 API Java SDK(由[东学西读](http://www.dongxuexidu.com)提供).
-
-欢迎加入东学西读的[豆瓣小站](http://site.douban.com/179782/).
-
-欢迎访问[东学西读](http://www.dongxuexidu.com).
-
-
-开源使用协议
----
-MIT License
-
-更新日志
----
-2013-04-01: 新增两个豆瓣V2电影的API： getMoviesTop250 与 getV2MovieInfoById 由[Sean Guo](https://github.com/seanguo)贡献
-
 注意
 ---
-现在本SDK是基于豆瓣OAuth 2.0 API的v1版，也就是使用GData 和 Atom作为数据传输类型的版本，使用JSON的v2版本尚未支持，因为其还处于测试阶段，稳定性和可靠性未知(而基于Atom的API豆瓣已经使用了多年)。
-而且v1和v2版本支持的API功能相同，所以暂时没有更换必要，等v2稳定并且成为主流后本SDK会做相应改变。
+现在本SDK是基于豆瓣OAuth 2.0 API的v1版，也就是使用GData 和 Atom作为数据传输类型的版本，使用JSON的v2版本尚未支持。
+由于主作者没有更多时间来更新这个SDK，欢迎大家Fork本SDK,如果您做了更新，欢迎发Pull Request给我，我会及时Merge.
 
 功能/优点
 ---
@@ -105,3 +89,7 @@ AccessToken at = oauth.tradeAccessTokenWithCode(code);
 * **未实现部分分支** 如豆邮过多需要验证码的引导,如上传本地图片至豆瓣说广播等.
 * **使用实例** 使用实例都可以在PlayGround,java和Test目录下找到.
 * **欢迎** 有兴趣的同学来一起继续完善这个SDK
+
+开源使用协议
+---
+MIT License
