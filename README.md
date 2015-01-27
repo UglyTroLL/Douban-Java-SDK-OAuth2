@@ -96,7 +96,7 @@ MIT License
 
 Contributors
 ---
-[UglyTroLL](https://github.com/UglyTroLL)
-[Sean Guo](https://github.com/seanguo)
-[SuperWang](https://github.com/SuperWang)
-[wellno](https://github.com/wellno)
+- [UglyTroLL](https://github.com/UglyTroLL)
+- [Sean Guo](https://github.com/seanguo)
+- [SuperWang](https://github.com/SuperWang)
+- [wellno](https://github.com/wellno)
