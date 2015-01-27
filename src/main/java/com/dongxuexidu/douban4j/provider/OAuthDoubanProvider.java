@@ -148,7 +148,7 @@ public class OAuthDoubanProvider {
       Map<String,String> params = new HashMap<String, String>();
       params.put("client_id", this.apiKey);
       params.put("client_secret", this.secretKey);
-      params.put("redirect_uri", DefaultConfigs.ACCESS_TOKEN_REDIRECT_URL);
+      params.put("redirect_uri",  this.redirectUrl);
       params.put("grant_type", "authorization_code");
       params.put("code", code);
       String responseStr = new HttpManager().postEncodedEntry(DefaultConfigs.ACCESS_TOKEN_URL, params, false);
