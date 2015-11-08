@@ -55,9 +55,9 @@ public class DoubanCollectionServiceTest extends TestCase {
   public void testGetUsersCollection_8args() throws Exception {
     System.out.println("getUsersCollection");
     String userId = "xxx";
-    CollectionCategory category = CollectionCategory.Movie;
+    CollectionCategory category = CollectionCategory.Music;
     String tag = "";
-    CollectionStatus status = CollectionStatus.MovieEd;
+    CollectionStatus status = CollectionStatus.MusicEd;
     Integer startIndex = 0;
     Integer maxResult = 2;
     Date startDate = null;
@@ -67,7 +67,8 @@ public class DoubanCollectionServiceTest extends TestCase {
     for (DoubanCollectionObj col : result.getCollections()) {
       System.out.println("col title : " + col.getTitle());
       System.out.println("col id : " + col.getId());
-      System.out.println("col subject title : " + col.getSubject().getTitle());
+      System.out.println("col user summary : " + col.getSummary());
+//      System.out.println("col subject title : " + col.getSubject().getTitle());
     }
     assertTrue(result.getCollections().size() > 0);
   }
