@@ -58,6 +58,25 @@ public class DoubanCollectionObj implements IDoubanObject{
   @Key("db:attribute")
   private List<DoubanAttributeObj> att;
 
+
+  @Key("summary")
+  private String summary;
+
+  /**
+  * @return user summary on current collection
+  * */
+  public String getSummary() {
+    return summary;
+  }
+
+  /**
+  * @param summary to set
+  * */
+  public void setSummary(String summary) {
+    this.summary = summary;
+  }
+
+
   /**
    * @return the updateTime
    */
