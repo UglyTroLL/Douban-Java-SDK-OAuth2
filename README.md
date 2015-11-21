@@ -46,17 +46,17 @@ mvn package -Dmaven.test.skip=true
 
 * **在您的项目中包含SDK全部源码** `(**如果能使用Maven请尽量使用Maven,尽量不要使用这种方式**)`
 那么，您需要自己下载以下依赖:
-commons-codec-1.9.jar
-commons-lang-2.6.jar
-google-http-client-1.10.3-beta.jar
-gson-2.4.jar
-guava-14.0.1.jar
-httpclient-4.5.1.jar
-httpcore-4.4.3.jar
-jackson-core-asl-1.9.13.jar
-json-lib-2.4-jdk15.jar
-protobuf-java-2.4.1.jar
-xmlpull-1.1.3.1.jar
+..* commons-codec-1.9.jar
+..* commons-lang-2.6.jar
+..* google-http-client-1.10.3-beta.jar
+..* gson-2.4.jar
+..* guava-14.0.1.jar
+..* httpclient-4.5.1.jar
+..* httpcore-4.4.3.jar
+..* jackson-core-asl-1.9.13.jar
+..* json-lib-2.4-jdk15.jar
+..* protobuf-java-2.4.1.jar
+..* xmlpull-1.1.3.1.jar
 可以到这儿下载：http://www.mvnrepository.com/
 
 OAuth认证流程
