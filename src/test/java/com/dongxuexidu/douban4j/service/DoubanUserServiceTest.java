@@ -1,9 +1,10 @@
 package com.dongxuexidu.douban4j.service;
 
+import junit.framework.TestCase;
+
 import com.dongxuexidu.douban4j.model.user.DoubanUserFeedObj;
 import com.dongxuexidu.douban4j.model.user.DoubanUserObj;
 import com.dongxuexidu.douban4j.playground.PlayGround;
-import junit.framework.TestCase;
 
 /**
  *

@@ -4,14 +4,16 @@
  */
 package com.dongxuexidu.douban4j.service;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import junit.framework.TestCase;
+
 import com.dongxuexidu.douban4j.model.collection.DoubanCollectionFeedObj;
 import com.dongxuexidu.douban4j.model.collection.DoubanCollectionObj;
 import com.dongxuexidu.douban4j.service.DoubanCollectionService.CollectionCategory;
 import com.dongxuexidu.douban4j.service.DoubanCollectionService.CollectionStatus;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import junit.framework.TestCase;
 
 /**
  *

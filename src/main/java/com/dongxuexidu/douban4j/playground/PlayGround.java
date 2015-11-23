@@ -1,5 +1,17 @@
 package com.dongxuexidu.douban4j.playground;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.dongxuexidu.douban4j.constants.DefaultConfigs;
 import com.dongxuexidu.douban4j.model.app.AccessToken;
 import com.dongxuexidu.douban4j.model.app.DoubanException;
@@ -16,22 +28,9 @@ import com.dongxuexidu.douban4j.service.DoubanBookMovieMusicService;
 import com.dongxuexidu.douban4j.service.DoubanMailService;
 import com.dongxuexidu.douban4j.service.DoubanShuoService;
 import com.google.api.client.http.json.JsonHttpContent;
-import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.client.xml.XmlNamespaceDictionary;
 import com.google.api.client.xml.XmlObjectParser;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -117,7 +116,7 @@ public class PlayGround {
   
   public static void testGetBookInfo () {
     try {
-      long bookId = 2023013;
+      // long bookId = 2023013;
       DoubanBookMovieMusicService service = new DoubanBookMovieMusicService();
       DoubanSubjectObj book = service.getMusicInfoById(2272292);
       System.out.println("title : " + book.getTitle());

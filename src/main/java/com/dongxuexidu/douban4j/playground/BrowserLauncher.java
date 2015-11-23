@@ -17,6 +17,7 @@ package com.dongxuexidu.douban4j.playground;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 import javax.swing.JOptionPane;
 
 public class BrowserLauncher {

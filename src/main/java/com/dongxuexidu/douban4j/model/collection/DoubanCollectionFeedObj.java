@@ -1,11 +1,11 @@
 package com.dongxuexidu.douban4j.model.collection;
 
-import com.dongxuexidu.douban4j.model.IDoubanObject;
-import com.dongxuexidu.douban4j.model.common.DoubanAuthorObj;
-import com.dongxuexidu.douban4j.model.user.DoubanUserObj;
-import com.google.api.client.util.Key;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.dongxuexidu.douban4j.model.IDoubanObject;
+import com.dongxuexidu.douban4j.model.common.DoubanAuthorObj;
+import com.google.api.client.util.Key;
 
 /**
  *
