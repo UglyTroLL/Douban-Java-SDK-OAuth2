@@ -1,5 +1,8 @@
 package com.dongxuexidu.douban4j.model.collection;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.dongxuexidu.douban4j.model.IDoubanObject;
 import com.dongxuexidu.douban4j.model.common.DoubanAttributeObj;
 import com.dongxuexidu.douban4j.model.common.DoubanLinkObj;
@@ -8,11 +11,6 @@ import com.dongxuexidu.douban4j.model.common.DoubanTagObj;
 import com.dongxuexidu.douban4j.model.subject.DoubanSubjectObj;
 import com.dongxuexidu.douban4j.model.user.DoubanUserObj;
 import com.google.api.client.util.Key;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  *

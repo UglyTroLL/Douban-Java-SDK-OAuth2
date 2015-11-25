@@ -1,5 +1,7 @@
 package com.dongxuexidu.douban4j.model.event;
 
+import java.util.List;
+
 import com.dongxuexidu.douban4j.model.IDoubanObject;
 import com.dongxuexidu.douban4j.model.common.DoubanAttributeObj;
 import com.dongxuexidu.douban4j.model.common.DoubanAuthorObj;
@@ -9,7 +11,6 @@ import com.dongxuexidu.douban4j.model.common.DoubanLocationObj;
 import com.dongxuexidu.douban4j.model.common.DoubanWhenObj;
 import com.dongxuexidu.douban4j.model.common.DoubanWhereObj;
 import com.google.api.client.util.Key;
-import java.util.List;
 
 /**
  *

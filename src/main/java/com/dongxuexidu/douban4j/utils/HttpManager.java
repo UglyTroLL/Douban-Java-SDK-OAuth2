@@ -1,5 +1,12 @@
 package com.dongxuexidu.douban4j.utils;
 
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.http.NameValuePair;
+
 import com.dongxuexidu.douban4j.constants.DefaultConfigs;
 import com.dongxuexidu.douban4j.model.IDoubanObject;
 import com.dongxuexidu.douban4j.model.app.DoubanException;
@@ -14,24 +21,10 @@ import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.MultipartRelatedContent;
 import com.google.api.client.http.UrlEncodedContent;
 import com.google.api.client.http.apache.ApacheHttpTransport;
-import com.google.api.client.http.json.JsonHttpContent;
 import com.google.api.client.http.xml.atom.AtomContent;
 import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.client.xml.XmlObjectParser;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-
-import java.net.URLEncoder;
-import java.util.List;
-import java.util.Map;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 
 
 /**

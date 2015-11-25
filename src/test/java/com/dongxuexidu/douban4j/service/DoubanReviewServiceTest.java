@@ -4,10 +4,11 @@
  */
 package com.dongxuexidu.douban4j.service;
 
+import junit.framework.TestCase;
+
 import com.dongxuexidu.douban4j.model.review.DoubanReviewEntryObj;
 import com.dongxuexidu.douban4j.model.review.DoubanReviewFeedObj;
 import com.dongxuexidu.douban4j.service.DoubanReviewService.ReviewOrderBy;
-import junit.framework.TestCase;
 
 /**
  *

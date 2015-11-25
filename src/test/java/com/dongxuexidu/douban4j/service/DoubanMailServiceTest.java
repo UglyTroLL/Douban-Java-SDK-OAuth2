@@ -4,11 +4,13 @@
  */
 package com.dongxuexidu.douban4j.service;
 
-import com.dongxuexidu.douban4j.model.doumail.DoubanMailEntryObj;
-import com.dongxuexidu.douban4j.model.doumail.DoubanMailFeedObj;
 import java.util.ArrayList;
 import java.util.List;
+
 import junit.framework.TestCase;
+
+import com.dongxuexidu.douban4j.model.doumail.DoubanMailEntryObj;
+import com.dongxuexidu.douban4j.model.doumail.DoubanMailFeedObj;
 
 /**
  *

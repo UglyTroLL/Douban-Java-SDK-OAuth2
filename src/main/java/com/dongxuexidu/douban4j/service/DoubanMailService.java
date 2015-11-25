@@ -1,5 +1,13 @@
 package com.dongxuexidu.douban4j.service;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
 import com.dongxuexidu.douban4j.constants.RequestUrls;
 import com.dongxuexidu.douban4j.constants.StatusCode;
 import com.dongxuexidu.douban4j.model.app.DoubanException;
@@ -8,12 +16,6 @@ import com.dongxuexidu.douban4j.model.common.DoubanEntityObj;
 import com.dongxuexidu.douban4j.model.doumail.DoubanMailEntryObj;
 import com.dongxuexidu.douban4j.model.doumail.DoubanMailFeedObj;
 import com.dongxuexidu.douban4j.utils.ErrorHandler;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 
 /**
  *

@@ -1,18 +1,19 @@
 package com.dongxuexidu.douban4j.utils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Date;
+
+import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
+
 import com.dongxuexidu.douban4j.constants.DefaultConfigs;
-import com.dongxuexidu.douban4j.model.IDoubanObject;
 import com.dongxuexidu.douban4j.model.app.AccessToken;
 import com.dongxuexidu.douban4j.model.app.DoubanException;
 import com.google.api.client.http.json.JsonHttpContent;
 import com.google.api.client.http.xml.XmlHttpContent;
 import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.client.util.DateTime;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Date;
-import net.sf.json.JSONException;
-import net.sf.json.JSONObject;
 
 /**
  *

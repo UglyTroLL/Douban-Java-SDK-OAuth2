@@ -4,13 +4,13 @@
  */
 package com.dongxuexidu.douban4j.service;
 
+import junit.framework.TestCase;
+
 import com.dongxuexidu.douban4j.constants.DefaultConfigs;
-import com.dongxuexidu.douban4j.model.shuo.DoubanShuoAttachementObj;
 import com.dongxuexidu.douban4j.model.shuo.DoubanShuoStatusObj;
 import com.dongxuexidu.douban4j.model.shuo.DoubanShuoUserObj;
 import com.dongxuexidu.douban4j.service.DoubanShuoService.DoubanShuoCategory;
 import com.dongxuexidu.douban4j.service.DoubanShuoService.DoubanShuoRelation;
-import junit.framework.TestCase;
 
 /**
  *
