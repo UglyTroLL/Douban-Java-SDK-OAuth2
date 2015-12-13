@@ -6,6 +6,8 @@ package com.dongxuexidu.douban4j.model.app;
  */
 public class DoubanException extends Exception {
   
+  private static final long serialVersionUID = 1L;
+  
   private int errorCode;
   private String errorMsg;
 

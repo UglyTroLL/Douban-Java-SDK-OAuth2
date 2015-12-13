@@ -4,9 +4,10 @@
  */
 package com.dongxuexidu.douban4j.service;
 
+import junit.framework.TestCase;
+
 import com.dongxuexidu.douban4j.model.note.DoubanNoteEntryObj;
 import com.dongxuexidu.douban4j.model.note.DoubanNoteFeedObj;
-import junit.framework.TestCase;
 
 /**
  *

@@ -1,13 +1,5 @@
 package com.dongxuexidu.douban4j.service;
 
-import com.dongxuexidu.douban4j.constants.DefaultConfigs;
-import com.dongxuexidu.douban4j.constants.RequestUrls;
-import com.dongxuexidu.douban4j.model.app.DoubanException;
-import com.dongxuexidu.douban4j.model.shuo.DoubanShuoAttachementObj;
-import com.dongxuexidu.douban4j.model.shuo.DoubanShuoStatusObj;
-import com.dongxuexidu.douban4j.model.shuo.DoubanShuoUserObj;
-import com.dongxuexidu.douban4j.utils.Converters;
-import com.dongxuexidu.douban4j.utils.ErrorHandler;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -15,9 +7,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+
 import net.sf.json.JSONObject;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+
+import com.dongxuexidu.douban4j.constants.RequestUrls;
+import com.dongxuexidu.douban4j.model.app.DoubanException;
+import com.dongxuexidu.douban4j.model.shuo.DoubanShuoAttachementObj;
+import com.dongxuexidu.douban4j.model.shuo.DoubanShuoStatusObj;
+import com.dongxuexidu.douban4j.model.shuo.DoubanShuoUserObj;
+import com.dongxuexidu.douban4j.utils.Converters;
+import com.dongxuexidu.douban4j.utils.ErrorHandler;
 
 /**
  *

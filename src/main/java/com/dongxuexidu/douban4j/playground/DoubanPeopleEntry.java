@@ -4,8 +4,9 @@
  */
 package com.dongxuexidu.douban4j.playground;
 
-import com.google.api.client.util.Key;
 import java.util.List;
+
+import com.google.api.client.util.Key;
 
 /**
  *

@@ -1,9 +1,10 @@
 package com.dongxuexidu.douban4j.model.doumail;
 
+import java.util.List;
+
 import com.dongxuexidu.douban4j.model.IDoubanObject;
 import com.dongxuexidu.douban4j.model.common.DoubanAuthorObj;
 import com.google.api.client.util.Key;
-import java.util.List;
 
 /**
  *

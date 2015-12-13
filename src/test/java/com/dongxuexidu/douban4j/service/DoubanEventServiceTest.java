@@ -4,13 +4,12 @@
  */
 package com.dongxuexidu.douban4j.service;
 
-import com.dongxuexidu.douban4j.model.event.DoubanEventEntryObj;
-import com.dongxuexidu.douban4j.model.event.DoubanEventFeedObj;
-import com.dongxuexidu.douban4j.model.user.DoubanUserFeedObj;
-import com.dongxuexidu.douban4j.service.DoubanEventService.EventType;
 import java.util.Calendar;
 import java.util.Date;
+
 import junit.framework.TestCase;
+
+import com.dongxuexidu.douban4j.service.DoubanEventService.EventType;
 
 /**
  *
