@@ -8,6 +8,7 @@ import junit.framework.TestCase;
 
 import com.dongxuexidu.douban4j.model.subject.DoubanSubjectFeedObj;
 import com.dongxuexidu.douban4j.model.subject.DoubanSubjectObj;
+import com.dongxuexidu.douban4j.model.v2.DoubanSubjectListObj;
 
 /**
  *
@@ -62,7 +63,32 @@ public class DoubanBookMovieMusicServiceTest extends TestCase {
     System.out.println("title : " + result.getTitle());
     assertEquals(result.getTitle(), "听风者");
   }
+  
+  /**
+   * Test of getMoviesTop250 method, of class DoubanBookMovieMusicService.
+   */
+  public void testGetMoviesTop250() throws Exception {
+	  System.out.println("getMoviesTop250");
+	  int start = 0;
+	  int count = 10;
+	  DoubanBookMovieMusicService instance = new DoubanBookMovieMusicService();
+	  DoubanSubjectListObj result = instance.getMoviesTop250(start, count);
+	  System.out.println("title : " + result.getTitle());
+	  assertEquals(result.getTitle(), "豆瓣电影Top250");
+  }
 
+  /**
+   * Test of getV2MovieInfoById method, of class DoubanBookMovieMusicService.
+   */
+  public void testGetV2MovieInfoById() throws Exception {
+    System.out.println("getV2MovieInfoById");
+    long movieId = 6041191L;
+    DoubanBookMovieMusicService instance = new DoubanBookMovieMusicService();
+    com.dongxuexidu.douban4j.model.v2.DoubanSubjectObj result = instance.getV2MovieInfoById(movieId);
+    System.out.println("title : " + result.getTitle());
+    assertEquals(result.getTitle(), "听风者");
+  }
+  
   /**
    * Test of getMusicInfoById method, of class DoubanBookMovieMusicService.
    */
