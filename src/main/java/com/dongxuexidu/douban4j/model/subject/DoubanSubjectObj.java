@@ -38,10 +38,10 @@ public class DoubanSubjectObj implements IDoubanObject {
   @Key("link")
   private List<DoubanLinkObj> links = new ArrayList<DoubanLinkObj>();
   
-  @Key("db:tag")
+  @Key("db2:tag")
   private List<DoubanTagObj> tags = new ArrayList<DoubanTagObj>();
   
-  @Key("db:attribute")
+  @Key("db2:attribute")
   private List<DoubanAttributeObj> attributes = new ArrayList<DoubanAttributeObj>();
   
   @Key
