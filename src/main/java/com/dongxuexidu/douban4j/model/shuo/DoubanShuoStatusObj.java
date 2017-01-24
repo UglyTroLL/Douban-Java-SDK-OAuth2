@@ -18,36 +18,38 @@ public class DoubanShuoStatusObj implements IDoubanObject{
   @Key("text")
   private String text;
   
-  @Key("liked")
-  private boolean liked = false;
-  
   @Key("like_count")
   private int likeCount = 0;
   
-  @Key("object_id")
-  private String objectId;
+  @Key("short_title")
+  private String shortTitle;
+  
+  @Key("object_kind")
+  private String objectKind;
   
   @Key("id")
   private long id;
   
+  @Key("attachments")
+  private List<DoubanShuoAttachementObj> attachements = new ArrayList<DoubanShuoAttachementObj>();
+
   @Key("category")
   private String category;
   
-  //WTF with this one?
-//  @Key("can_reply")
-//  private boolean canReply;
+  @Key("virtual_id")
+  private String virtual_id;
   
-//  @Key("layout")
-//  private int layout;
+  @Key("liked")
+  private boolean liked = false;
+  //WTF with this one?
+  @Key("can_reply")
+ private int canReply;
+  
+ /*@Key("layout")
+ private int layout;*/
   
   @Key("title")
   private String title;
-  
-  @Key("muted")
-  private boolean muted = false;
-  
-  @Key("favorited")
-  private boolean favorited = false;
   
   @Key("created_at")
   private String createdTime;
@@ -55,8 +57,8 @@ public class DoubanShuoStatusObj implements IDoubanObject{
   @Key("target_type")
   private String targetType;
   
-  @Key("short_title")
-  private String shortTitle;
+/*  @Key("object_id")//object_id : "103803"
+  private String object_id;*/
   
   @Key("comments_count")
   private int commentsCount;
@@ -67,11 +69,17 @@ public class DoubanShuoStatusObj implements IDoubanObject{
   @Key("action")
   private String action;
   
+  @Key("type")
+  private int type;
+  
+  @Key("muted")
+  private boolean muted = false;
+  
+  @Key("favorited")
+  private boolean favorited = false;
+  
 //  @Key("tmpl_ver")
 //  private int tmplVer;
-  
-  @Key("type")
-  private String type;
   
   @Key("source")
   private String source;
@@ -79,13 +87,21 @@ public class DoubanShuoStatusObj implements IDoubanObject{
   @Key("user")
   private DoubanShuoUserObj user;
   
-  @Key("attachments")
-  private List<DoubanShuoAttachementObj> attachements = new ArrayList<DoubanShuoAttachementObj>();
-
+  
   @Override
   public String getObjName() {
     return "doubanshuostatus";
   }
+
+  
+  public String getObjectKind() {
+	return objectKind;
+}
+
+public void setObjectKind(String objectKind) {
+	this.objectKind = objectKind;
+}
+
 
   /**
    * @return the resharedCount
@@ -143,19 +159,6 @@ public class DoubanShuoStatusObj implements IDoubanObject{
     this.likeCount = likeCount;
   }
 
-  /**
-   * @return the objectId
-   */
-  public String getObjectId() {
-    return objectId;
-  }
-
-  /**
-   * @param objectId the objectId to set
-   */
-  public void setObjectId(String objectId) {
-    this.objectId = objectId;
-  }
 
   /**
    * @return the id
@@ -315,14 +318,14 @@ public class DoubanShuoStatusObj implements IDoubanObject{
    * @return the action
    */
   public String getAction() {
-    return action;
+    return action.toString();
   }
 
   /**
    * @param action the action to set
    */
-  public void setAction(String action) {
-    this.action = action;
+  public void setAction(Object action) {
+    this.action = (String) action;
   }
 
 //  /**
@@ -342,14 +345,14 @@ public class DoubanShuoStatusObj implements IDoubanObject{
   /**
    * @return the type
    */
-  public String getType() {
+  public int getType() {
     return type;
   }
 
   /**
    * @param type the type to set
    */
-  public void setType(String type) {
+  public void setType(int type) {
     this.type = type;
   }
 
@@ -408,5 +411,21 @@ public class DoubanShuoStatusObj implements IDoubanObject{
   public void setSource(String source) {
     this.source = source;
   }
+
+@Override
+public String toString() {
+	return "DoubanShuoStatusObj [resharedCount=" + resharedCount + ", text="
+			+ text + ", objectKind=" + objectKind + ", liked=" + liked
+			+ ", likeCount=" + likeCount  + ", id="
+			+ id + ", category=" + category + ", title=" + title + ", muted="
+			+ muted + ", favorited=" + favorited + ", createdTime="
+			+ createdTime + ", targetType=" + targetType + ", shortTitle="
+			+ shortTitle + ", commentsCount=" + commentsCount
+			+ ", renderSuccess=" + renderSuccess + ", action=" + action
+			+ ", type=" + type + ", source=" + source + ", user=" + user
+			+ ", attachements=" + attachements + "]";
+}
+
+
   
 }
