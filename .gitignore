@@ -1,4 +1,6 @@
 /target/
+/.idea/
+*.iml
 .settings/
 
 *.class
@@ -7,4 +9,3 @@
 *.jar
 .classpath
 .project
-
